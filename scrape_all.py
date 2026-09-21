@@ -2,6 +2,8 @@ import json
 import time
 from pathlib import Path
 
+from youtube_transcript_api import RequestBlocked
+
 from transcript import extract_video_id, get_transcript
 
 TO_SCRAPE = Path("to_scrape.json")
@@ -26,6 +28,11 @@ def main() -> None:
             )
             out.write_text(header + get_transcript(url, timestamps=False) + "\n")
             print(f"saved {url} -> {out}")
+        except RequestBlocked:
+            raise SystemExit(
+                f"fail  {url}: YouTube is blocking this IP. Stopping so the block "
+                "isn't extended. Switch network or set TRANSCRIPT_PROXY_URL (see README), then re-run."
+            )
         except Exception as e:
             print(f"fail  {url}: {type(e).__name__}")
         time.sleep(DELAY_SECONDS)
