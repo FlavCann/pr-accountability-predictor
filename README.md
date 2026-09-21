@@ -1,4 +1,4 @@
-# PR Accountability Predictor
+# PR Accountability Predictor tool
 
 Tools for collecting the raw text of corporate communications so they can be analysed later. The repo currently covers the data-collection step: finding YouTube videos on saved investor-relations pages and downloading their transcripts. The example data comes from Barry Callebaut's "Results & Publications" page (results presentations, capital markets days, and similar).
 
