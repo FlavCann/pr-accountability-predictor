@@ -1,0 +1,20 @@
+name: tests
+
+# The mechanics only: offsets, scoring, the gate's refusals, the suites.
+# Transcripts are not redistributable, so tests over the real corpus skip here
+# and run locally. Scoring a live model needs a key and is never run in CI.
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+      - run: pip install -e ".[dev]"
+      - run: pytest -q

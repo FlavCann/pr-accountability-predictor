@@ -1,0 +1,232 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=1FUvRp9MGpU",
+  "source_title": "Capital Markets Day 2022",
+  "source_text_hash": "ae542f8ff2988c9c",
+  "split": "test",
+  "exhaustive": true,
+  "labelled_by": "Flavio (1 label); remainder AI-drafted by Claude Opus 5 (2026-09-22), unreviewed",
+  "labelling_complete": true,
+  "provenance": "mixed: promise 1 ('grow the profits faster than the volume...') was labelled by Flavio with the label desk; every label tagged ai_drafted was added by Claude Opus 5 on 2026-09-22, unreviewed and not blind. POC only.",
+  "promises": [
+    {
+      "start_char": 64286,
+      "end_char": 64664,
+      "promise_type": "quantified_target",
+      "hedge_level": "intended",
+      "note": "",
+      "thread_key": "1FUvRp9MGpU#0"
+    },
+    {
+      "start_char": 38854,
+      "end_char": 38957,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "firm",
+      "note": "A new factory with an operational year. (AI-drafted)",
+      "thread_key": "1FUvRp9MGpU#1",
+      "deadline_raw": "in 2024",
+      "slices": [
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 29306,
+      "end_char": 29500,
+      "promise_type": "quantified_target",
+      "hedge_level": "firm",
+      "note": "The midterm guidance with its numbers: 5-7% volume, EBIT faster. (AI-drafted)",
+      "thread_key": "bc-midterm-guidance",
+      "slices": [
+        "restatement",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 24700,
+      "end_char": 24804,
+      "promise_type": "directional_guidance",
+      "hedge_level": "firm",
+      "note": "Restates the midterm guidance. (AI-drafted)",
+      "thread_key": "bc-midterm-guidance",
+      "slices": [
+        "restatement",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 32840,
+      "end_char": 32943,
+      "promise_type": "directional_guidance",
+      "hedge_level": "conditional",
+      "note": "CFO restatement of the midterm guidance. (AI-drafted)",
+      "thread_key": "bc-midterm-guidance",
+      "slices": [
+        "restatement",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 43082,
+      "end_char": 43141,
+      "promise_type": "directional_guidance",
+      "hedge_level": "conditional",
+      "note": "CFO summary restatement. (AI-drafted)",
+      "thread_key": "bc-midterm-guidance",
+      "slices": [
+        "restatement",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 33498,
+      "end_char": 33739,
+      "promise_type": "directional_guidance",
+      "hedge_level": "conditional",
+      "note": "EBIT growth above volume growth: the profit half of the guidance, with a caveat. (AI-drafted)",
+      "thread_key": "bc-midterm-guidance",
+      "slices": [
+        "restatement",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 66294,
+      "end_char": 66323,
+      "promise_type": "directional_guidance",
+      "hedge_level": "firm",
+      "note": "Q&A restatement. (AI-drafted)",
+      "thread_key": "bc-midterm-guidance",
+      "slices": [
+        "restatement",
+        "qa",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 14179,
+      "end_char": 14223,
+      "promise_type": "directional_guidance",
+      "hedge_level": "intended",
+      "note": "Volume growth above market growth is checkable against Nielsen. (AI-drafted)",
+      "thread_key": "1FUvRp9MGpU#8",
+      "slices": [
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 63739,
+      "end_char": 63835,
+      "promise_type": "quantified_target",
+      "hedge_level": "intended",
+      "note": "Arguable: a 'sweet spot' rather than a stated target. (AI-drafted)",
+      "thread_key": "1FUvRp9MGpU#9",
+      "slices": [
+        "qa",
+        "ai_drafted"
+      ],
+      "ambiguous": true
+    },
+    {
+      "start_char": 7380,
+      "end_char": 7603,
+      "promise_type": "directional_guidance",
+      "hedge_level": "aspirational",
+      "note": "Arguable: targets exist but are not stated; 'eventually' has no date. (AI-drafted)",
+      "thread_key": "1FUvRp9MGpU#10",
+      "slices": [
+        "asr_garble",
+        "ai_drafted"
+      ],
+      "ambiguous": true
+    },
+    {
+      "start_char": 29991,
+      "end_char": 30084,
+      "promise_type": "directional_guidance",
+      "hedge_level": "conditional",
+      "note": "Arguable: restates growing above market in looser terms. (AI-drafted)",
+      "thread_key": "1FUvRp9MGpU#11",
+      "ambiguous": true,
+      "slices": [
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 35389,
+      "end_char": 35487,
+      "promise_type": "directional_guidance",
+      "hedge_level": "intended",
+      "note": "Arguable: a direction, weakly checkable. (AI-drafted)",
+      "thread_key": "1FUvRp9MGpU#12",
+      "ambiguous": true,
+      "slices": [
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 23098,
+      "end_char": 23308,
+      "promise_type": "quantified_target",
+      "hedge_level": "firm",
+      "note": "Arguable: describes the 2016 targets historically; unclear whether it restates them. (AI-drafted)",
+      "thread_key": "1FUvRp9MGpU#13",
+      "ambiguous": true,
+      "slices": [
+        "ai_drafted"
+      ]
+    }
+  ],
+  "must_not_extract": [
+    {
+      "start_char": 29710,
+      "end_char": 29774,
+      "note": "Declines to give guidance; commits to nothing. (AI-drafted)"
+    },
+    {
+      "start_char": 25271,
+      "end_char": 25349,
+      "note": "Generic; no metric or date. (AI-drafted)"
+    },
+    {
+      "start_char": 24089,
+      "end_char": 24122,
+      "note": "Presentation logistics. (AI-drafted)"
+    },
+    {
+      "start_char": 45513,
+      "end_char": 45618,
+      "note": "Vague expectation. (AI-drafted)"
+    },
+    {
+      "start_char": 49510,
+      "end_char": 49592,
+      "note": "Conditional stance on M&A; nothing checkable. (AI-drafted)"
+    },
+    {
+      "start_char": 1191,
+      "end_char": 1242,
+      "note": "Event logistics. (AI-drafted)"
+    },
+    {
+      "start_char": 24413,
+      "end_char": 24531,
+      "note": "Generic strategy statement. (AI-drafted)"
+    },
+    {
+      "start_char": 35761,
+      "end_char": 35867,
+      "note": "Observation about the world. (AI-drafted)"
+    },
+    {
+      "start_char": 15701,
+      "end_char": 15773,
+      "note": "Belief about consumers, not a commitment. (AI-drafted)"
+    }
+  ],
+  "masked": [
+    {
+      "start_char": 41048,
+      "end_char": 41162,
+      "note": "The extract-v3 worked positive example (directional_guidance / intended). Masked so the rest of the transcript can be held out."
+    }
+  ]
+}

@@ -1,0 +1,278 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=_pPsXMY2oTE",
+  "source_title": "Forever Chocolate: Our Impact beyond 2025",
+  "source_text_hash": "ee77a1404373d3bf",
+  "split": "dev",
+  "exhaustive": true,
+  "labelled_by": "Flavio + Claude (2026-09-21); additions AI-drafted by Claude Opus 5 (2026-09-22), unreviewed",
+  "labelling_complete": true,
+  "provenance": "mixed: the original 10 promise labels were made by Flavio with Claude on 2026-09-21; everything tagged ai_drafted was added by Claude Opus 5 on 2026-09-22, unreviewed. POC only.",
+  "promises": [
+    {
+      "start_char": 2939,
+      "end_char": 3054,
+      "promise_type": "quantified_target",
+      "hedge_level": "firm",
+      "note": "Restates the 2016 Forever Chocolate ambition. 500,000 farmers, 2025.",
+      "thread_key": "bc-500k-farmers-2025",
+      "slices": [
+        "restatement"
+      ]
+    },
+    {
+      "start_char": 3633,
+      "end_char": 3783,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "firm",
+      "note": "Doing it is the outcome; 'remediating all' is checkable.",
+      "thread_key": "bc-hrdd-remediation-2025"
+    },
+    {
+      "start_char": 3784,
+      "end_char": 3860,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "firm",
+      "note": "Explicitly framed as a target with a date.",
+      "thread_key": "_pPsXMY2oTE#2"
+    },
+    {
+      "start_char": 4045,
+      "end_char": 4161,
+      "promise_type": "quantified_target",
+      "hedge_level": "intended",
+      "note": "Hedge attaches to the checkable clause: 'aim to become forest positive by 2025', not the leading 'we will'.",
+      "thread_key": "_pPsXMY2oTE#3"
+    },
+    {
+      "start_char": 4392,
+      "end_char": 4479,
+      "promise_type": "quantified_target",
+      "hedge_level": "firm",
+      "note": "Two commitments; labelled as one span because they share a clause.",
+      "thread_key": "bc-net-zero-2050"
+    },
+    {
+      "start_char": 36356,
+      "end_char": 36493,
+      "promise_type": "quantified_target",
+      "hedge_level": "firm",
+      "note": "100% by 2030, stated by the moderator on the company's behalf.",
+      "thread_key": "bc-certified-ingredients-2030",
+      "slices": [
+        "moderator"
+      ]
+    },
+    {
+      "start_char": 4839,
+      "end_char": 4890,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "intended",
+      "note": "Traceability to farm level by 2030. (AI-drafted)",
+      "thread_key": "bc-traceability-2030",
+      "deadline_raw": "by 2030",
+      "slices": [
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 11350,
+      "end_char": 11497,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "firm",
+      "note": "The 2030 prospering-farmer commitment. (AI-drafted)",
+      "thread_key": "bc-living-income-coalition",
+      "slices": [
+        "moderator",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 11766,
+      "end_char": 11908,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "firm",
+      "note": "Restated minutes later by the moderator. (AI-drafted)",
+      "thread_key": "bc-living-income-coalition",
+      "slices": [
+        "moderator",
+        "restatement",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 48808,
+      "end_char": 48859,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "firm",
+      "note": "Q&A: eradication commitment, no date. (AI-drafted)",
+      "thread_key": "bc-eradicate-child-labor",
+      "slices": [
+        "qa",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 48904,
+      "end_char": 48962,
+      "promise_type": "quantified_target",
+      "hedge_level": "firm",
+      "note": "Q&A restatement of the 2025 remediation target. (AI-drafted)",
+      "thread_key": "bc-hrdd-remediation-2025",
+      "slices": [
+        "qa",
+        "restatement",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 54648,
+      "end_char": 54715,
+      "promise_type": "quantified_target",
+      "hedge_level": "conditional",
+      "note": "About 80% certified/verified ingredients around 2025. (AI-drafted)",
+      "thread_key": "_pPsXMY2oTE#11",
+      "deadline_raw": "around 2025",
+      "slices": [
+        "qa",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 48067,
+      "end_char": 48157,
+      "promise_type": "quantified_target",
+      "hedge_level": "firm",
+      "note": "Q&A restatement of net zero. (AI-drafted)",
+      "thread_key": "bc-net-zero-2050",
+      "slices": [
+        "qa",
+        "restatement",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 33669,
+      "end_char": 33723,
+      "promise_type": "quantified_target",
+      "hedge_level": "firm",
+      "note": "Moderator restatement of net zero. (AI-drafted)",
+      "thread_key": "bc-net-zero-2050",
+      "deadline_raw": "by 2050",
+      "slices": [
+        "moderator",
+        "restatement",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 62266,
+      "end_char": 62295,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "firm",
+      "note": "Traceability data to be made public. (AI-drafted)",
+      "thread_key": "_pPsXMY2oTE#14",
+      "slices": [
+        "qa",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 707,
+      "end_char": 950,
+      "promise_type": "quantified_target",
+      "hedge_level": "firm",
+      "note": "Arguable: describes the 2016 targets historically. (AI-drafted)",
+      "thread_key": "_pPsXMY2oTE#15",
+      "ambiguous": true,
+      "slices": [
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 55552,
+      "end_char": 55654,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "firm",
+      "note": "Arguable: an ongoing practice rather than a new commitment. (AI-drafted)",
+      "thread_key": "_pPsXMY2oTE#16",
+      "slices": [
+        "qa",
+        "ai_drafted"
+      ],
+      "ambiguous": true
+    },
+    {
+      "start_char": 58081,
+      "end_char": 58212,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "intended",
+      "note": "Arguable: a direction for insecticide use; hard to check. (AI-drafted)",
+      "thread_key": "_pPsXMY2oTE#17",
+      "slices": [
+        "qa",
+        "ai_drafted"
+      ],
+      "ambiguous": true
+    },
+    {
+      "start_char": 43858,
+      "end_char": 43940,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "conditional",
+      "note": "Arguable: refers back to traceability without restating it. (AI-drafted)",
+      "thread_key": "_pPsXMY2oTE#18",
+      "ambiguous": true,
+      "slices": [
+        "ai_drafted"
+      ]
+    }
+  ],
+  "must_not_extract": [
+    {
+      "start_char": 454,
+      "end_char": 503,
+      "note": "Broadcast logistics. Not a corporate commitment."
+    },
+    {
+      "start_char": 2174,
+      "end_char": 2218,
+      "note": "Running order of the event, not a commitment the company can fail."
+    },
+    {
+      "start_char": 1803,
+      "end_char": 1857,
+      "note": "Broadcast logistics. (AI-drafted)"
+    },
+    {
+      "start_char": 47357,
+      "end_char": 47433,
+      "note": "Broadcast logistics. (AI-drafted)"
+    },
+    {
+      "start_char": 19701,
+      "end_char": 19789,
+      "note": "Ivory Coast government's commitment, not the company's. (AI-drafted)"
+    },
+    {
+      "start_char": 9158,
+      "end_char": 9262,
+      "note": "World Cocoa Foundation's goal, said by its president. (AI-drafted)"
+    },
+    {
+      "start_char": 43236,
+      "end_char": 43272,
+      "note": "Prediction about the sector. (AI-drafted)"
+    },
+    {
+      "start_char": 60056,
+      "end_char": 60106,
+      "note": "Prediction about the effect of regulation. (AI-drafted)"
+    },
+    {
+      "start_char": 49501,
+      "end_char": 49580,
+      "note": "An admission that a prior target will be missed, not a new commitment. (AI-drafted)"
+    }
+  ],
+  "masked": []
+}

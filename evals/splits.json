@@ -1,0 +1,20 @@
+{
+  "_comment": "Split for every transcript in the corpus, assigned BEFORE labelling and never moved. examples: the extraction prompt's worked examples come from these, so they are never scored. dev: iterate freely. test: held out, scored for promotion. fresh: published after the executor's training cutoff. The two test transcripts each supply one extract-v3 example; that passage is masked in evals/labels/<id>.json and never scored. Do not draw new prompt examples from dev/test/fresh transcripts.",
+  "splits": {
+    "examples": [
+      "NlE3fGt6y0M",
+      "dFezjNUOUlo",
+      "phNtJMyLXZo",
+      "tbovqMt-PJQ"
+    ],
+    "dev": [
+      "ZcTyUa8q71E",
+      "_pPsXMY2oTE"
+    ],
+    "test": [
+      "1FUvRp9MGpU",
+      "S07gnpUx15s"
+    ],
+    "fresh": []
+  }
+}

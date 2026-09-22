@@ -1,0 +1,294 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=ZcTyUa8q71E",
+  "source_title": "Barry Callebaut Group Full-Year Results 2021/22",
+  "source_text_hash": "617b3e524f44b852",
+  "split": "dev",
+  "exhaustive": true,
+  "labelled_by": "Flavio + Claude (2026-09-21); additions AI-drafted by Claude Opus 5 (2026-09-22), unreviewed",
+  "labelling_complete": true,
+  "provenance": "mixed: the original 10 promise labels were made by Flavio with Claude on 2026-09-21; everything tagged ai_drafted was added by Claude Opus 5 on 2026-09-22, unreviewed. POC only.",
+  "promises": [
+    {
+      "start_char": 19737,
+      "end_char": 19843,
+      "promise_type": "quantified_target",
+      "hedge_level": "firm",
+      "note": "Quantified financial guidance. Note the deadline is a FISCAL year ('fiscal year 2022 2023'), which ends in August -- a deadline parser that maps this to calendar 2023 is wrong.",
+      "thread_key": "bc-midterm-guidance",
+      "deadline_raw": "in fiscal year 2022 2023",
+      "deadline_resolved": null,
+      "slices": [
+        "fiscal_deadline"
+      ]
+    },
+    {
+      "start_char": 19883,
+      "end_char": 19957,
+      "promise_type": "scheduling_announcement",
+      "hedge_level": "firm",
+      "note": "An event on a date. Low materiality, genuinely checkable.",
+      "thread_key": "bc-new-midterm-guidance",
+      "deadline_raw": "in q1 of this fiscal year",
+      "deadline_resolved": null,
+      "slices": [
+        "fiscal_deadline"
+      ]
+    },
+    {
+      "start_char": 18517,
+      "end_char": 18596,
+      "promise_type": "scheduling_announcement",
+      "hedge_level": "firm",
+      "note": "ASR garbles 'sharpened' as 'sharp at'. The span is still correct; the garble is a display-layer problem.",
+      "thread_key": "ZcTyUa8q71E#2",
+      "deadline_raw": "later in the fiscal year",
+      "deadline_resolved": null,
+      "slices": [
+        "fiscal_deadline",
+        "asr_garble"
+      ]
+    },
+    {
+      "start_char": 24353,
+      "end_char": 24451,
+      "promise_type": "scheduling_announcement",
+      "hedge_level": "firm",
+      "note": "Restates the Q1 commitment during Q&A -- should thread to it.",
+      "thread_key": "bc-new-midterm-guidance",
+      "deadline_raw": "at the end of the first quarter",
+      "deadline_resolved": null,
+      "slices": [
+        "fiscal_deadline",
+        "qa",
+        "restatement"
+      ]
+    },
+    {
+      "start_char": 18443,
+      "end_char": 18512,
+      "promise_type": "scheduling_announcement",
+      "hedge_level": "firm",
+      "note": "A publication with a date. (AI-drafted)",
+      "thread_key": "ZcTyUa8q71E#4",
+      "deadline_raw": "in early December",
+      "slices": [
+        "asr_garble",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 16779,
+      "end_char": 16844,
+      "promise_type": "scheduling_announcement",
+      "hedge_level": "firm",
+      "note": "The AGM on a stated calendar date. (AI-drafted)",
+      "thread_key": "ZcTyUa8q71E#5",
+      "deadline_raw": "on December 14",
+      "deadline_resolved": "2022-12-14",
+      "slices": [
+        "asr_garble",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 23750,
+      "end_char": 23846,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "firm",
+      "note": "Refilling the Wieze-affected pipeline within weeks. (AI-drafted)",
+      "thread_key": "ZcTyUa8q71E#6",
+      "slices": [
+        "qa",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 24005,
+      "end_char": 24064,
+      "promise_type": "directional_guidance",
+      "hedge_level": "firm",
+      "note": "Q&A restatement. (AI-drafted)",
+      "thread_key": "bc-midterm-guidance",
+      "slices": [
+        "restatement",
+        "qa",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 34350,
+      "end_char": 34440,
+      "promise_type": "directional_guidance",
+      "hedge_level": "conditional",
+      "note": "Q&A restatement: slightly above 5% needed. (AI-drafted)",
+      "thread_key": "bc-midterm-guidance",
+      "slices": [
+        "restatement",
+        "qa",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 51538,
+      "end_char": 51602,
+      "promise_type": "directional_guidance",
+      "hedge_level": "firm",
+      "note": "Q&A restatement. (AI-drafted)",
+      "thread_key": "bc-midterm-guidance",
+      "slices": [
+        "restatement",
+        "qa",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 55891,
+      "end_char": 55996,
+      "promise_type": "directional_guidance",
+      "hedge_level": "conditional",
+      "note": "The EBIT half of the guidance. (AI-drafted)",
+      "thread_key": "bc-midterm-guidance",
+      "slices": [
+        "restatement",
+        "qa",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 27821,
+      "end_char": 27917,
+      "promise_type": "directional_guidance",
+      "hedge_level": "conditional",
+      "note": "The outsourcing component, next fiscal year. (AI-drafted)",
+      "thread_key": "bc-outsourcing-guidance",
+      "deadline_raw": "next year",
+      "deadline_resolved": null,
+      "slices": [
+        "qa",
+        "fiscal_deadline",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 56017,
+      "end_char": 56144,
+      "promise_type": "quantified_target",
+      "hedge_level": "firm",
+      "note": "Outsourcing guidance with a number. (AI-drafted)",
+      "thread_key": "ZcTyUa8q71E#12",
+      "slices": [
+        "qa",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 50129,
+      "end_char": 50210,
+      "promise_type": "directional_guidance",
+      "hedge_level": "conditional",
+      "note": "No further Wieze one-offs in FY22/23: checkable. (AI-drafted)",
+      "thread_key": "ZcTyUa8q71E#13",
+      "deadline_raw": "financial aid 2223",
+      "deadline_resolved": null,
+      "slices": [
+        "qa",
+        "fiscal_deadline",
+        "asr_garble",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 16467,
+      "end_char": 16595,
+      "promise_type": "quantified_target",
+      "hedge_level": "firm",
+      "note": "Arguable: a decision already taken by the board; checkable but not a forward commitment. (AI-drafted)",
+      "thread_key": "ZcTyUa8q71E#14",
+      "ambiguous": true,
+      "slices": [
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 17170,
+      "end_char": 17312,
+      "promise_type": "directional_guidance",
+      "hedge_level": "firm",
+      "note": "Arguable: excluded as arguable by the original labeller. (AI-drafted)",
+      "thread_key": "ZcTyUa8q71E#15",
+      "ambiguous": true,
+      "slices": [
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 31253,
+      "end_char": 31334,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "firm",
+      "note": "Arguable: current policy stated in Q&A; checkable but not framed as a commitment. (AI-drafted)",
+      "thread_key": "ZcTyUa8q71E#16",
+      "slices": [
+        "qa",
+        "ai_drafted"
+      ],
+      "ambiguous": true
+    },
+    {
+      "start_char": 47555,
+      "end_char": 47662,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "firm",
+      "note": "Arguable: 'guarantee' is strong, but the claim is conditional and hard to verify. (AI-drafted)",
+      "thread_key": "ZcTyUa8q71E#17",
+      "slices": [
+        "qa",
+        "ai_drafted"
+      ],
+      "ambiguous": true
+    }
+  ],
+  "must_not_extract": [
+    {
+      "start_char": 357,
+      "end_char": 430,
+      "note": "A joke about the catering. The original prompt recorded this as the single promise found in a 12,404-word results presentation."
+    },
+    {
+      "start_char": 19155,
+      "end_char": 19236,
+      "note": "Board nomination: a personnel decision. (AI-drafted)"
+    },
+    {
+      "start_char": 19423,
+      "end_char": 19522,
+      "note": "Personnel/governance logistics. (AI-drafted)"
+    },
+    {
+      "start_char": 17807,
+      "end_char": 17849,
+      "note": "Generic; nothing checkable. (AI-drafted)"
+    },
+    {
+      "start_char": 46106,
+      "end_char": 46147,
+      "note": "Sentiment. (AI-drafted)"
+    },
+    {
+      "start_char": 33411,
+      "end_char": 33442,
+      "note": "Statement of character. (AI-drafted)"
+    },
+    {
+      "start_char": 65863,
+      "end_char": 65925,
+      "note": "About customers' timelines, not the company's. (AI-drafted)"
+    },
+    {
+      "start_char": 25452,
+      "end_char": 25507,
+      "note": "Vague expectation about Australia. (AI-drafted)"
+    }
+  ],
+  "masked": []
+}

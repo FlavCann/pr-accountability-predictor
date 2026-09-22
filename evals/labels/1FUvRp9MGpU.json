@@ -1,0 +1,223 @@
+{
+  "_instructions": "Label BLIND: do not look at `python -m pr_predictor promises` or any model output for this transcript until you are done. Read data/labelling/<id>.txt (python evals/show_transcript.py <id>). promises: [phrase, promise_type, hedge_level, note, {optional extras}] -- phrase copied exactly, line breaks are fine. must_not_extract: [phrase, why]. See evals/GUIDELINES.md. When every promise is labelled set labelling_complete and exhaustive to true, fill labelled_by, and run python evals/build_gold.py.",
+  "labelling_complete": true,
+  "exhaustive": true,
+  "labelled_by": "Flavio (1 label); remainder AI-drafted by Claude Opus 5 (2026-09-22), unreviewed",
+  "masked": [
+    [
+      "we continue to focus on diligently managing the working capital and aim to grow it equal or less than our top line",
+      "The extract-v3 worked positive example (directional_guidance / intended). Masked so the rest of the transcript can be held out."
+    ]
+  ],
+  "promises": [
+    [
+      "grow the profits faster than the volume but yes we also believe we want to invest in our future leadership positions around the globe and sometimes that costs money to be honest if we open a whole new market and we have to build a footprint and we we invest in the longer term leadership position in the market because we know that that return will be very beneficial in the end",
+      "quantified_target",
+      "intended",
+      ""
+    ],
+    [
+      "our new specialty factory that we just announced in ontario canada that will become operational in 2024",
+      "procedural_commitment",
+      "firm",
+      "A new factory with an operational year. (AI-drafted)",
+      {
+        "deadline_raw": "in 2024",
+        "slices": [
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "we will deliver on the midterm guidance um you know five to seven percent uh volume growth um is what we what we promised we promised that in local currencies the ebit will grow faster than that",
+      "quantified_target",
+      "firm",
+      "The midterm guidance with its numbers: 5-7% volume, EBIT faster. (AI-drafted)",
+      {
+        "thread_key": "bc-midterm-guidance",
+        "slices": [
+          "restatement",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "still believe uh strongly that our midterm guidance is the right one and that we will deliver against it",
+      "directional_guidance",
+      "firm",
+      "Restates the midterm guidance. (AI-drafted)",
+      {
+        "thread_key": "bc-midterm-guidance",
+        "slices": [
+          "restatement",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "we are currently in the middle of our midterm guidance periods and we are confident on delivering on it",
+      "directional_guidance",
+      "conditional",
+      "CFO restatement of the midterm guidance. (AI-drafted)",
+      {
+        "thread_key": "bc-midterm-guidance",
+        "slices": [
+          "restatement",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "hence we are confident to deliver upon our midterm guidance",
+      "directional_guidance",
+      "conditional",
+      "CFO summary restatement. (AI-drafted)",
+      {
+        "thread_key": "bc-midterm-guidance",
+        "slices": [
+          "restatement",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "smartly driving our business product and customer mix in combination with cost leadership will enable us to grow achieve ebit growth in local currencies above volume growth of course this is on average and bearing any major unforeseen events",
+      "directional_guidance",
+      "conditional",
+      "EBIT growth above volume growth: the profit half of the guidance, with a caveat. (AI-drafted)",
+      {
+        "thread_key": "bc-midterm-guidance",
+        "slices": [
+          "restatement",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "our guidance remains the same",
+      "directional_guidance",
+      "firm",
+      "Q&A restatement. (AI-drafted)",
+      {
+        "thread_key": "bc-midterm-guidance",
+        "slices": [
+          "restatement",
+          "qa",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "we want to grow confidently above the market",
+      "directional_guidance",
+      "intended",
+      "Volume growth above market growth is checkable against Nielsen. (AI-drafted)",
+      {
+        "slices": [
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "our sweet spot for at the moment for uh for outsourcing is about 30 to 40 000 tons on on average",
+      "quantified_target",
+      "intended",
+      "Arguable: a 'sweet spot' rather than a stated target. (AI-drafted)",
+      {
+        "slices": [
+          "qa",
+          "ai_drafted"
+        ],
+        "ambiguous": true
+      }
+    ],
+    [
+      "we have our targets on that front but as a team we know that through the daily recruitment through the promotion with keeping diversity and occlusion in mind you will eventually see the changes in our in our leadership team",
+      "directional_guidance",
+      "aspirational",
+      "Arguable: targets exist but are not stated; 'eventually' has no date. (AI-drafted)",
+      {
+        "slices": [
+          "asr_garble",
+          "ai_drafted"
+        ],
+        "ambiguous": true
+      }
+    ],
+    [
+      "we keep growing smartly and that we keep growing far above the market and in a profitable way",
+      "directional_guidance",
+      "conditional",
+      "Arguable: restates growing above market in looser terms. (AI-drafted)",
+      {
+        "ambiguous": true,
+        "slices": [
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "will continue to increase market penetration through an extensive and growing distribution network",
+      "directional_guidance",
+      "intended",
+      "Arguable: a direction, weakly checkable. (AI-drafted)",
+      {
+        "ambiguous": true,
+        "slices": [
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "when we launched our forever chocolate strategy in 2016 we were very ambitious we wanted to uh to pull 500 000 farmers out of poverty we want to eradicate child labour we wanted to be carbon and forest positive",
+      "quantified_target",
+      "firm",
+      "Arguable: describes the 2016 targets historically; unclear whether it restates them. (AI-drafted)",
+      {
+        "ambiguous": true,
+        "slices": [
+          "ai_drafted"
+        ]
+      }
+    ]
+  ],
+  "must_not_extract": [
+    [
+      "it's a little bit too early to come up with new midterm guidance",
+      "Declines to give guidance; commits to nothing. (AI-drafted)"
+    ],
+    [
+      "we will keep strong growing our base business in chocolate compounds and cocoa",
+      "Generic; no metric or date. (AI-drafted)"
+    ],
+    [
+      "so more to come on sustainability",
+      "Presentation logistics. (AI-drafted)"
+    ],
+    [
+      "i think we will still get smarter and smarter over time to understand where the right inventory should be",
+      "Vague expectation. (AI-drafted)"
+    ],
+    [
+      "if necessary of course we will uh we will invest and we will go for an acquisition",
+      "Conditional stance on M&A; nothing checkable. (AI-drafted)"
+    ],
+    [
+      "we will have a short lunch break on the lower floor",
+      "Event logistics. (AI-drafted)"
+    ],
+    [
+      "we will keep executing our long-term strategy the pillars of course leadership expansion sustainability and innovation",
+      "Generic strategy statement. (AI-drafted)"
+    ],
+    [
+      "africa which is evolving from an origin continent also to a major con consumer markets in the next decades",
+      "Observation about the world. (AI-drafted)"
+    ],
+    [
+      "i believe in the end everyone will eat chocolate and everyone will enjoy",
+      "Belief about consumers, not a commitment. (AI-drafted)"
+    ]
+  ],
+  "provenance": "mixed: promise 1 ('grow the profits faster than the volume...') was labelled by Flavio with the label desk; every label tagged ai_drafted was added by Claude Opus 5 on 2026-09-22, unreviewed and not blind. POC only."
+}

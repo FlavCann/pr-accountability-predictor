@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pr-accountability-predictor"
+version = "0.3.0"
+description = "Track what companies promise in investor communications, and hold them to it."
+requires-python = ">=3.9"
+dependencies = [
+    "anthropic>=0.125.0",
+    "pydantic>=2.0",
+    "beautifulsoup4",
+    "youtube-transcript-api",
+]
+
+[project.optional-dependencies]
+api = ["fastapi", "uvicorn"]
+dev = ["pytest"]
+
+[project.scripts]
+prp = "pr_predictor.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pr_predictor = [
+    "static/*.html",
+    "static/css/*.css",
+    "static/js/*.js",
+    "static/js/*/*.js",
+    "static/img/*/*.png",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

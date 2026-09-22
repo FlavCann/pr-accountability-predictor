@@ -1,0 +1,212 @@
+{
+  "_instructions": "Label BLIND: do not look at `python -m pr_predictor promises` or any model output for this transcript until you are done. Read data/labelling/<id>.txt (python evals/show_transcript.py <id>). promises: [phrase, promise_type, hedge_level, note, {optional extras}] -- phrase copied exactly, line breaks are fine. must_not_extract: [phrase, why]. See evals/GUIDELINES.md. When every promise is labelled set labelling_complete and exhaustive to true, fill labelled_by, and run python evals/build_gold.py.",
+  "labelling_complete": true,
+  "exhaustive": true,
+  "labelled_by": "Claude Opus 5 (AI-drafted, not reviewed by a person), 2026-09-22",
+  "masked": [
+    [
+      "steve will be succeeding peter as president americas as of september 1st you will become our new president for asia pacific as per july 1st",
+      "Contains the extract-v3 exclusion example 'Third-party actions' plus the adjacent announcement it directly teaches. Masked so the rest of the transcript can be held out."
+    ]
+  ],
+  "promises": [
+    [
+      "our new global distribution center in lokren it will be ready before the end of the year",
+      "procedural_commitment",
+      "firm",
+      "A facility with a completion date. Checkable. (AI-drafted)",
+      {
+        "deadline_raw": "before the end of the year",
+        "slices": [
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "on april 28 next week we kick off the journey of treats tomorrow",
+      "scheduling_announcement",
+      "firm",
+      "An event on a stated calendar date. (AI-drafted)",
+      {
+        "deadline_raw": "on april 28 next week",
+        "deadline_resolved": "2021-04-28",
+        "slices": [
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "we will support the treatment initiative with a platform",
+      "procedural_commitment",
+      "firm",
+      "Committing to build and run a platform; low materiality. (AI-drafted)",
+      {
+        "slices": [
+          "asr_garble",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "so we will go at it with time-bound and metric at a target",
+      "procedural_commitment",
+      "firm",
+      "Commits to setting time-bound, metric D&I targets. (AI-drafted)",
+      {
+        "slices": [
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "make us confident that we are coming out of the crisis stronger and uh to deliver on our midterm guidance",
+      "directional_guidance",
+      "conditional",
+      "Reaffirms the 5-7% midterm guidance; 'confident' is an expectation. (AI-drafted)",
+      {
+        "thread_key": "bc-midterm-guidance",
+        "slices": [
+          "restatement",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "we reiterated it because we are confident in our in our midterm guidance",
+      "directional_guidance",
+      "conditional",
+      "Q&A restatement of the midterm guidance. (AI-drafted)",
+      {
+        "thread_key": "bc-midterm-guidance",
+        "slices": [
+          "restatement",
+          "qa",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "if you look over the i mean over the period of the guidance we are pretty confident that we are uh and that we will deliver on our this component of our of our goals",
+      "directional_guidance",
+      "conditional",
+      "The 30-40k tonnes/year outsourcing component of the guidance. (AI-drafted)",
+      {
+        "thread_key": "bc-outsourcing-guidance",
+        "slices": [
+          "qa",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "investigate how sidestream from chocolate manufacturing processors could help us become our carbon positive by 25",
+      "quantified_target",
+      "aspirational",
+      "Arguable: the commitment is to investigate; 'carbon positive by 25' is mentioned in passing. (AI-drafted)",
+      {
+        "slices": [
+          "asr_garble",
+          "ai_drafted"
+        ],
+        "ambiguous": true
+      }
+    ],
+    [
+      "obviously all content will be available uh to the journalist and to the analyst but after april 28th",
+      "scheduling_announcement",
+      "firm",
+      "Arguable: an availability promise, but 'after' sets no deadline. (AI-drafted)",
+      {
+        "ambiguous": true,
+        "slices": [
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "so that's about 100 million that will come back at the end of the year",
+      "quantified_target",
+      "conditional",
+      "Arguable: a CFO forecast of a working-capital effect rather than a commitment. (AI-drafted)",
+      {
+        "slices": [
+          "qa",
+          "ai_drafted"
+        ],
+        "ambiguous": true
+      }
+    ],
+    [
+      "one of our four pillars of sustainability is about our zero child labor in our supply chain",
+      "procedural_commitment",
+      "firm",
+      "Arguable: restates a standing target without a date. (AI-drafted)",
+      {
+        "slices": [
+          "qa",
+          "ai_drafted"
+        ],
+        "ambiguous": true
+      }
+    ],
+    [
+      "we continue to focus on our four pillar of expansion innovation cost leadership and sustainability",
+      "directional_guidance",
+      "firm",
+      "Arguable: strategy statement; nothing clearly checkable. (AI-drafted)",
+      {
+        "ambiguous": true,
+        "slices": [
+          "ai_drafted"
+        ]
+      }
+    ]
+  ],
+  "must_not_extract": [
+    [
+      "i will at the end of this fiscal year and after six are very rich and very exciting years at the helm of barry calabroth pass the baton to peter boone",
+      "CEO succession: a personnel decision already taken, not a commitment the company can fail. The original prompt extracted it. (AI-drafted)"
+    ],
+    [
+      "i will be proposed as a board member at the next agm",
+      "Personnel decision, and a board proposal by others. (AI-drafted)"
+    ],
+    [
+      "i can promise you you will still have to bear with me for about five months",
+      "A joke. 'Promise' is figurative. (AI-drafted)"
+    ],
+    [
+      "i can promise you as well we have no intent to stay our idle during the next five months",
+      "Statement of character; nothing checkable. (AI-drafted)"
+    ],
+    [
+      "i promised you that next time we see each other you will have the opportunity to taste those and many more",
+      "Social pleasantry about tasting chocolate. (AI-drafted)"
+    ],
+    [
+      "i dream to see the day where this company will be run by kids from origin countries and by some of our daughters",
+      "An aspiration with no measure or date. (AI-drafted)"
+    ],
+    [
+      "we will keep looking and we keep actively looking at at m a",
+      "Process commentary; nothing could falsify it. (AI-drafted)"
+    ],
+    [
+      "we should uh we should benefit from the good work we have been doing",
+      "Vague expectation; no metric or date. (AI-drafted)"
+    ],
+    [
+      "as the markets are opening up again we will see that the trend that there is again going to be a need for uh for quite a bit of cocoa butter",
+      "Observation about the market, not something the company undertakes. (AI-drafted)"
+    ],
+    [
+      "our europe will uh when uh the the the corvid is over uh come back to normal",
+      "Macro expectation about external conditions. (AI-drafted)"
+    ],
+    [
+      "we will get back into more details in our coming slides",
+      "Presentation logistics. (AI-drafted)"
+    ]
+  ],
+  "provenance": "ai_drafted: Claude Opus 5, unreviewed and not blind, 2026-09-22. POC only."
+}

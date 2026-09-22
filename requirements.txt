@@ -1,3 +1,12 @@
-youtube-transcript-api
+# Runtime
+anthropic>=0.125.0
+pydantic>=2.0
 beautifulsoup4
-anthropic
+youtube-transcript-api
+
+# API (optional): pip install -e ".[api]"
+# fastapi
+# uvicorn
+
+# Dev (optional): pip install -e ".[dev]"
+# pytest

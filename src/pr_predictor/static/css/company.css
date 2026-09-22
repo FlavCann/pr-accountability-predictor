@@ -1,0 +1,72 @@
+/* The company view: profile, thread list, thread detail. */
+
+/* ---------- company header ---------- */
+.company-hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 32px; align-items: center; }
+.company-hero h1 { margin-top: 0; }
+.company-hero .about { margin: 12px 0 0; max-width: 75ch; color: var(--ink-2); }
+.company-logo { width: 240px; height: auto; display: block; }
+@media (max-width: 760px) {
+  .company-hero { grid-template-columns: minmax(0, 1fr); }
+  .company-logo { order: -1; width: 200px; }
+}
+
+/* ---------- profile ---------- */
+.profile { display: grid; gap: 20px; margin-top: 20px; }
+.summary-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px; align-items: start; margin-top: 20px; }
+@media (max-width: 860px) { .summary-row { grid-template-columns: minmax(0, 1fr); } }
+.summary-row .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 600px) { .summary-row .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.bar { display: flex; gap: 2px; height: 14px; margin: 4px 0 12px; }
+.bar .seg { height: 100%; min-width: 4px; cursor: default; }
+.bar .seg:first-child { border-radius: 999px 0 0 999px; }
+.bar .seg:last-child { border-radius: 0 999px 999px 0; }
+.bar .seg:only-child { border-radius: 999px; }
+.bar .seg:hover { outline: 2px solid var(--ink); outline-offset: 1px; }
+
+/* ---------- threads ---------- */
+.workspace { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 20px; margin-top: 20px; align-items: start; }
+@media (max-width: 1000px) { .workspace { grid-template-columns: 1fr; } }
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.filters input, .filters select {
+  font: inherit; color: var(--ink); background: var(--surface-2);
+  border: 1px solid transparent; border-radius: 999px; padding: 6px 14px;
+}
+.filters input:focus, .filters select:focus { outline: none; border-color: var(--accent); background: var(--surface); }
+.filters input { flex: 1; min-width: 160px; }
+.list { max-height: 78vh; overflow-y: auto; margin: 0 -20px -20px; }
+.row {
+  display: block; width: 100%; text-align: left; background: none; border: 0;
+  border-top: 1px solid var(--grid); padding: 14px 20px; cursor: pointer;
+}
+.row:hover { background: var(--accent-wash); }
+.row[aria-selected="true"] { background: var(--accent-wash); box-shadow: inset 3px 0 0 var(--accent); }
+.row .claim { font-weight: 600; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.row .meta { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 6px; font-size: 12.5px; color: var(--muted); }
+
+/* ---------- detail ---------- */
+.detail { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow-y: auto; }
+.detail .claim-lg { font-size: 19px; font-weight: 800; line-height: 1.35; margin: 0 0 12px; }
+.facts { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; font-size: 14px; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; }
+
+.obs { background: var(--quote); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; }
+.obs .head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px; }
+.obs .meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.watch { font-weight: 700; white-space: nowrap; }
+blockquote {
+  margin: 10px 0; padding: 2px 0 2px 14px; border-left: 3px solid var(--grid);
+  font-style: italic; color: var(--ink);
+}
+
+.verdict-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.verdict-head .badge { font-size: 14px; padding: 4px 14px 4px 10px; }
+.rationale { white-space: pre-wrap; margin: 12px 0; }
+.rationale a.evd { font-size: 11px; font-weight: 800; vertical-align: super; line-height: 0; padding: 0 1px; }
+.evidence { border-left: 3px solid var(--grid); padding: 6px 12px; margin: 10px 0; font-size: 14px; border-radius: 0 8px 8px 0; transition: background 300ms; }
+.evidence.cited { border-left-color: var(--accent); }
+.evidence .src { font-size: 13px; color: var(--muted); margin-bottom: 3px; }
+.evidence .src b { color: var(--accent); margin-right: 4px; }
+.evidence .excerpt { font-style: italic; }
+details summary { cursor: pointer; color: var(--ink-2); font-weight: 600; margin: 10px 0; }

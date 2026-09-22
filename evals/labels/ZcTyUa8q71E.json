@@ -1,0 +1,291 @@
+{
+  "_instructions": "Dev transcript: labels need not be blind. promises: [phrase, promise_type, hedge_level, note, {optional extras}]; must_not_extract: [phrase, why]. Readable copy: python evals/show_transcript.py <id>. Rules: evals/GUIDELINES.md. Set exhaustive to true only once every promise in the transcript is labelled.",
+  "labelling_complete": true,
+  "exhaustive": true,
+  "labelled_by": "Flavio + Claude (2026-09-21); additions AI-drafted by Claude Opus 5 (2026-09-22), unreviewed",
+  "masked": [],
+  "promises": [
+    [
+      "our midterm guidance is five to seven percent volume growth and ebit above volume growth in local currency",
+      "quantified_target",
+      "firm",
+      "Quantified financial guidance. Note the deadline is a FISCAL year ('fiscal year 2022 2023'), which ends in August -- a deadline parser that maps this to calendar 2023 is wrong.",
+      {
+        "deadline_raw": "in fiscal year 2022 2023",
+        "deadline_resolved": null,
+        "slices": [
+          "fiscal_deadline"
+        ],
+        "thread_key": "bc-midterm-guidance"
+      }
+    ],
+    [
+      "in q1 of this fiscal year we will give an update on a new midterm guidance",
+      "scheduling_announcement",
+      "firm",
+      "An event on a date. Low materiality, genuinely checkable.",
+      {
+        "deadline_raw": "in q1 of this fiscal year",
+        "deadline_resolved": null,
+        "thread_key": "bc-new-midterm-guidance",
+        "slices": [
+          "fiscal_deadline"
+        ]
+      }
+    ],
+    [
+      "later in the fiscal year we will publish our sharp at Forever chocolate targets",
+      "scheduling_announcement",
+      "firm",
+      "ASR garbles 'sharpened' as 'sharp at'. The span is still correct; the garble is a display-layer problem.",
+      {
+        "deadline_raw": "later in the fiscal year",
+        "deadline_resolved": null,
+        "slices": [
+          "fiscal_deadline",
+          "asr_garble"
+        ]
+      }
+    ],
+    [
+      "at the end of the first quarter we will give you our new midterm guidance for the next three years",
+      "scheduling_announcement",
+      "firm",
+      "Restates the Q1 commitment during Q&A -- should thread to it.",
+      {
+        "deadline_raw": "at the end of the first quarter",
+        "deadline_resolved": null,
+        "thread_key": "bc-new-midterm-guidance",
+        "slices": [
+          "fiscal_deadline",
+          "qa",
+          "restatement"
+        ]
+      }
+    ],
+    [
+      "in early December we were publish a forever chocolate progress report",
+      "scheduling_announcement",
+      "firm",
+      "A publication with a date. (AI-drafted)",
+      {
+        "deadline_raw": "in early December",
+        "slices": [
+          "asr_garble",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "this year's shareholder metal meeting will be held on December 14",
+      "scheduling_announcement",
+      "firm",
+      "The AGM on a stated calendar date. (AI-drafted)",
+      {
+        "deadline_raw": "on December 14",
+        "deadline_resolved": "2022-12-14",
+        "slices": [
+          "asr_garble",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "we have still a little bit of pipeline to fill and that we will do over the next couple of weeks",
+      "procedural_commitment",
+      "firm",
+      "Refilling the Wieze-affected pipeline within weeks. (AI-drafted)",
+      {
+        "slices": [
+          "qa",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "I'm confirming that we will deliver on the midterm guidance",
+      "directional_guidance",
+      "firm",
+      "Q&A restatement. (AI-drafted)",
+      {
+        "thread_key": "bc-midterm-guidance",
+        "slices": [
+          "restatement",
+          "qa",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "of course we also did those calculations and we are confident that we um uh will get there",
+      "directional_guidance",
+      "conditional",
+      "Q&A restatement: slightly above 5% needed. (AI-drafted)",
+      {
+        "thread_key": "bc-midterm-guidance",
+        "slices": [
+          "restatement",
+          "qa",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "because I committed to deliver the midterm guidance in this year",
+      "directional_guidance",
+      "firm",
+      "Q&A restatement. (AI-drafted)",
+      {
+        "thread_key": "bc-midterm-guidance",
+        "slices": [
+          "restatement",
+          "qa",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "in that sense we are confident also that we deliver on the midterm guidance from an ebit ebit perspective",
+      "directional_guidance",
+      "conditional",
+      "The EBIT half of the guidance. (AI-drafted)",
+      {
+        "thread_key": "bc-midterm-guidance",
+        "slices": [
+          "restatement",
+          "qa",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "I will expect that again next year we will deliver on the guidance we have on that on that front",
+      "directional_guidance",
+      "conditional",
+      "The outsourcing component, next fiscal year. (AI-drafted)",
+      {
+        "thread_key": "bc-outsourcing-guidance",
+        "deadline_raw": "next year",
+        "deadline_resolved": null,
+        "slices": [
+          "qa",
+          "fiscal_deadline",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "the guidance is of course uh 35 uh to 40 000 tons um this is um lower than in the past but we have deliberately brought it down",
+      "quantified_target",
+      "firm",
+      "Outsourcing guidance with a number. (AI-drafted)",
+      {
+        "slices": [
+          "qa",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "we don't expector to come back with a non-recurring item in in financial aid 2223",
+      "directional_guidance",
+      "conditional",
+      "No further Wieze one-offs in FY22/23: checkable. (AI-drafted)",
+      {
+        "deadline_raw": "financial aid 2223",
+        "deadline_resolved": null,
+        "slices": [
+          "qa",
+          "fiscal_deadline",
+          "asr_garble",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "the board of directors will propose to the annual general meeting of shareholders a stable dividend of 28 Swiss Francs per share",
+      "quantified_target",
+      "firm",
+      "Arguable: a decision already taken by the board; checkable but not a forward commitment. (AI-drafted)",
+      {
+        "ambiguous": true,
+        "slices": [
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "we will continue to drive growth on the sound Foundation of our four strategic pillars expansion Innovation cost leadership and sustainability",
+      "directional_guidance",
+      "firm",
+      "Arguable: excluded as arguable by the original labeller. (AI-drafted)",
+      {
+        "ambiguous": true,
+        "slices": [
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "we are there in a maintain mode so we are not adding any investments in in Russia",
+      "procedural_commitment",
+      "firm",
+      "Arguable: current policy stated in Q&A; checkable but not framed as a commitment. (AI-drafted)",
+      {
+        "slices": [
+          "qa",
+          "ai_drafted"
+        ],
+        "ambiguous": true
+      }
+    ],
+    [
+      "in case it happens it should not have an impact as we had on this scale and that we can of course guarantee",
+      "procedural_commitment",
+      "firm",
+      "Arguable: 'guarantee' is strong, but the claim is conditional and hard to verify. (AI-drafted)",
+      {
+        "slices": [
+          "qa",
+          "ai_drafted"
+        ],
+        "ambiguous": true
+      }
+    ]
+  ],
+  "must_not_extract": [
+    [
+      "we will make sure that you will not be short of chocolate after the event",
+      "A joke about the catering. The original prompt recorded this as the single promise found in a 12,404-word results presentation."
+    ],
+    [
+      "Thomas intratore will be put forward as a new member of the board at the next AGM",
+      "Board nomination: a personnel decision. (AI-drafted)"
+    ],
+    [
+      "all current members of the boards will stand for re-election for another term of office of one year",
+      "Personnel/governance logistics. (AI-drafted)"
+    ],
+    [
+      "we will continue to create cost leadership",
+      "Generic; nothing checkable. (AI-drafted)"
+    ],
+    [
+      "we will absolutely get stronger out of it",
+      "Sentiment. (AI-drafted)"
+    ],
+    [
+      "we will remain a growth company",
+      "Statement of character. (AI-drafted)"
+    ],
+    [
+      "they need 12 to 18 months to really bring this to uh to Market",
+      "About customers' timelines, not the company's. (AI-drafted)"
+    ],
+    [
+      "we will see a lot of of growth coming coming from there",
+      "Vague expectation about Australia. (AI-drafted)"
+    ]
+  ],
+  "provenance": "mixed: the original 10 promise labels were made by Flavio with Claude on 2026-09-21; everything tagged ai_drafted was added by Claude Opus 5 on 2026-09-22, unreviewed. POC only."
+}

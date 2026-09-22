@@ -2,5 +2,19 @@
 .DS_Store
 __pycache__/
 *.pyc
+*.egg-info/
+build/
+dist/
+
+# Collected material -- not ours to redistribute
 pages/
 transcripts/
+
+# Local state: store, ledger, cache, memory
+data/
+
+# Eval champion is local until a team agrees to share one
+evals/champion.json
+
+# Secrets -- never commit
+.env

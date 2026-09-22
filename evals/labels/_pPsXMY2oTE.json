@@ -1,0 +1,273 @@
+{
+  "_instructions": "Dev transcript: labels need not be blind. promises: [phrase, promise_type, hedge_level, note, {optional extras}]; must_not_extract: [phrase, why]. Readable copy: python evals/show_transcript.py <id>. Rules: evals/GUIDELINES.md. Set exhaustive to true only once every promise in the transcript is labelled.",
+  "labelling_complete": true,
+  "exhaustive": true,
+  "labelled_by": "Flavio + Claude (2026-09-21); additions AI-drafted by Claude Opus 5 (2026-09-22), unreviewed",
+  "masked": [],
+  "promises": [
+    [
+      "For prospering farmer for 2025, we stick to our target of seeing half a million farmer being lifted out of poverty.",
+      "quantified_target",
+      "firm",
+      "Restates the 2016 Forever Chocolate ambition. 500,000 farmers, 2025.",
+      {
+        "slices": [
+          "restatement"
+        ],
+        "thread_key": "bc-500k-farmers-2025"
+      }
+    ],
+    [
+      "Our 2025 target is bringing our full supply chain under an impactful human rights due diligence process, remediating all child labor cases identified.",
+      "procedural_commitment",
+      "firm",
+      "Doing it is the outcome; 'remediating all' is checkable.",
+      {
+        "thread_key": "bc-hrdd-remediation-2025"
+      }
+    ],
+    [
+      "Our 2030 target is empowering the cocoa communities to protect child rights.",
+      "procedural_commitment",
+      "firm",
+      "Explicitly framed as a target with a date."
+    ],
+    [
+      "we will be double down our efforts on preventing any further deforestation and aim to become forest positive by 2025",
+      "quantified_target",
+      "intended",
+      "Hedge attaches to the checkable clause: 'aim to become forest positive by 2025', not the leading 'we will'."
+    ],
+    [
+      "by 2050 latest, we will become net zero and we will also set an interim target for 2030",
+      "quantified_target",
+      "firm",
+      "Two commitments; labelled as one span because they share a clause.",
+      {
+        "thread_key": "bc-net-zero-2050"
+      }
+    ],
+    [
+      "Barry Callebaut has committed to have by 2030 100% certified or verified ingredients in all of its products, all traceable to farm level.",
+      "quantified_target",
+      "firm",
+      "100% by 2030, stated by the moderator on the company's behalf.",
+      {
+        "slices": [
+          "moderator"
+        ],
+        "thread_key": "bc-certified-ingredients-2030"
+      }
+    ],
+    [
+      "we're focusing more on traceability to farm by 2030",
+      "procedural_commitment",
+      "intended",
+      "Traceability to farm level by 2030. (AI-drafted)",
+      {
+        "thread_key": "bc-traceability-2030",
+        "deadline_raw": "by 2030",
+        "slices": [
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "Barry Callebaut has also committed to bring together a group of stakeholders behind a transformative cocoa farming model generating a living income",
+      "procedural_commitment",
+      "firm",
+      "The 2030 prospering-farmer commitment. (AI-drafted)",
+      {
+        "thread_key": "bc-living-income-coalition",
+        "slices": [
+          "moderator",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "Barry Callebaut has committed to bring together a group of stakeholders around a transformative cocoa farming model generating a living income",
+      "procedural_commitment",
+      "firm",
+      "Restated minutes later by the moderator. (AI-drafted)",
+      {
+        "thread_key": "bc-living-income-coalition",
+        "slices": [
+          "moderator",
+          "restatement",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "we're still committed to eradicate child labor 100%",
+      "procedural_commitment",
+      "firm",
+      "Q&A: eradication commitment, no date. (AI-drafted)",
+      {
+        "thread_key": "bc-eradicate-child-labor",
+        "slices": [
+          "qa",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "we are committed to remediate 100% of the case we identify",
+      "quantified_target",
+      "firm",
+      "Q&A restatement of the 2025 remediation target. (AI-drafted)",
+      {
+        "thread_key": "bc-hrdd-remediation-2025",
+        "slices": [
+          "qa",
+          "restatement",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "you'll be at 80 around 2025, more or less. Plus minus at least 80%.",
+      "quantified_target",
+      "conditional",
+      "About 80% certified/verified ingredients around 2025. (AI-drafted)",
+      {
+        "deadline_raw": "around 2025",
+        "slices": [
+          "qa",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "we're basically committed over the next uh 30 years to completely decarbonize the business",
+      "quantified_target",
+      "firm",
+      "Q&A restatement of net zero. (AI-drafted)",
+      {
+        "thread_key": "bc-net-zero-2050",
+        "slices": [
+          "qa",
+          "restatement",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "we have a commitment to become carbon net zero by 2050",
+      "quantified_target",
+      "firm",
+      "Moderator restatement of net zero. (AI-drafted)",
+      {
+        "thread_key": "bc-net-zero-2050",
+        "deadline_raw": "by 2050",
+        "slices": [
+          "moderator",
+          "restatement",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "So, this data will be public.",
+      "procedural_commitment",
+      "firm",
+      "Traceability data to be made public. (AI-drafted)",
+      {
+        "slices": [
+          "qa",
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "this was based on four key ambitions: to lift 500,000 farmers out of poverty, to eradicate child labor from our supply chain, to become uh to uh become carbon and forest positive, and to have 100% sustainable ingredients in all of our products",
+      "quantified_target",
+      "firm",
+      "Arguable: describes the 2016 targets historically. (AI-drafted)",
+      {
+        "ambiguous": true,
+        "slices": [
+          "ai_drafted"
+        ]
+      }
+    ],
+    [
+      "we report uh transparently about the proportion of um ingredients that we source verified or certified",
+      "procedural_commitment",
+      "firm",
+      "Arguable: an ongoing practice rather than a new commitment. (AI-drafted)",
+      {
+        "slices": [
+          "qa",
+          "ai_drafted"
+        ],
+        "ambiguous": true
+      }
+    ],
+    [
+      "we really want to be a lot more targeted based on farm assessment, identification of pest and disease and only applying when needed",
+      "procedural_commitment",
+      "intended",
+      "Arguable: a direction for insecticide use; hard to check. (AI-drafted)",
+      {
+        "slices": [
+          "qa",
+          "ai_drafted"
+        ],
+        "ambiguous": true
+      }
+    ],
+    [
+      "this make us much more comfortable that we will be there as as we are committed to",
+      "procedural_commitment",
+      "conditional",
+      "Arguable: refers back to traceability without restating it. (AI-drafted)",
+      {
+        "ambiguous": true,
+        "slices": [
+          "ai_drafted"
+        ]
+      }
+    ]
+  ],
+  "must_not_extract": [
+    [
+      "we will be your two moderators for this broadcast",
+      "Broadcast logistics. Not a corporate commitment."
+    ],
+    [
+      "we will welcome you back here for a live Q&A",
+      "Running order of the event, not a commitment the company can fail."
+    ],
+    [
+      "but we'll also hear from external stakeholders as well",
+      "Broadcast logistics. (AI-drafted)"
+    ],
+    [
+      "we're going to do our uttermost best to answer as many questions as possible",
+      "Broadcast logistics. (AI-drafted)"
+    ],
+    [
+      "They have a commitment to move that to to 20%, which is 3.5 million hectares to reforest",
+      "Ivory Coast government's commitment, not the company's. (AI-drafted)"
+    ],
+    [
+      "we seek to um stop deforestation in the cocoa supply chain uh and promote reforestation and conservation",
+      "World Cocoa Foundation's goal, said by its president. (AI-drafted)"
+    ],
+    [
+      "So, traceability is going to happen.",
+      "Prediction about the sector. (AI-drafted)"
+    ],
+    [
+      "There will be uh, uh, cocoa that will be discarded",
+      "Prediction about the effect of regulation. (AI-drafted)"
+    ],
+    [
+      "it's an honest statement to say that 25 will child labor will not be eradicated",
+      "An admission that a prior target will be missed, not a new commitment. (AI-drafted)"
+    ]
+  ],
+  "provenance": "mixed: the original 10 promise labels were made by Flavio with Claude on 2026-09-21; everything tagged ai_drafted was added by Claude Opus 5 on 2026-09-22, unreviewed. POC only."
+}

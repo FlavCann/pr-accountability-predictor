@@ -1,0 +1,224 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=S07gnpUx15s",
+  "source_title": "Half-Year Results 2020/21",
+  "source_text_hash": "eb7224f855cc6605",
+  "split": "test",
+  "exhaustive": true,
+  "labelled_by": "Claude Opus 5 (AI-drafted, not reviewed by a person), 2026-09-22",
+  "labelling_complete": true,
+  "provenance": "ai_drafted: Claude Opus 5, unreviewed and not blind, 2026-09-22. POC only.",
+  "promises": [
+    {
+      "start_char": 18517,
+      "end_char": 18605,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "firm",
+      "note": "A facility with a completion date. Checkable. (AI-drafted)",
+      "thread_key": "S07gnpUx15s#0",
+      "deadline_raw": "before the end of the year",
+      "slices": [
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 19215,
+      "end_char": 19279,
+      "promise_type": "scheduling_announcement",
+      "hedge_level": "firm",
+      "note": "An event on a stated calendar date. (AI-drafted)",
+      "thread_key": "S07gnpUx15s#1",
+      "deadline_raw": "on april 28 next week",
+      "deadline_resolved": "2021-04-28",
+      "slices": [
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 19746,
+      "end_char": 19802,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "firm",
+      "note": "Committing to build and run a platform; low materiality. (AI-drafted)",
+      "thread_key": "S07gnpUx15s#2",
+      "slices": [
+        "asr_garble",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 21909,
+      "end_char": 21967,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "firm",
+      "note": "Commits to setting time-bound, metric D&I targets. (AI-drafted)",
+      "thread_key": "S07gnpUx15s#3",
+      "slices": [
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 22490,
+      "end_char": 22595,
+      "promise_type": "directional_guidance",
+      "hedge_level": "conditional",
+      "note": "Reaffirms the 5-7% midterm guidance; 'confident' is an expectation. (AI-drafted)",
+      "thread_key": "bc-midterm-guidance",
+      "slices": [
+        "restatement",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 48541,
+      "end_char": 48613,
+      "promise_type": "directional_guidance",
+      "hedge_level": "conditional",
+      "note": "Q&A restatement of the midterm guidance. (AI-drafted)",
+      "thread_key": "bc-midterm-guidance",
+      "slices": [
+        "restatement",
+        "qa",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 36656,
+      "end_char": 36821,
+      "promise_type": "directional_guidance",
+      "hedge_level": "conditional",
+      "note": "The 30-40k tonnes/year outsourcing component of the guidance. (AI-drafted)",
+      "thread_key": "bc-outsourcing-guidance",
+      "slices": [
+        "qa",
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 19032,
+      "end_char": 19145,
+      "promise_type": "quantified_target",
+      "hedge_level": "aspirational",
+      "note": "Arguable: the commitment is to investigate; 'carbon positive by 25' is mentioned in passing. (AI-drafted)",
+      "thread_key": "S07gnpUx15s#7",
+      "slices": [
+        "asr_garble",
+        "ai_drafted"
+      ],
+      "ambiguous": true
+    },
+    {
+      "start_char": 19882,
+      "end_char": 19982,
+      "promise_type": "scheduling_announcement",
+      "hedge_level": "firm",
+      "note": "Arguable: an availability promise, but 'after' sets no deadline. (AI-drafted)",
+      "thread_key": "S07gnpUx15s#8",
+      "ambiguous": true,
+      "slices": [
+        "ai_drafted"
+      ]
+    },
+    {
+      "start_char": 33667,
+      "end_char": 33737,
+      "promise_type": "quantified_target",
+      "hedge_level": "conditional",
+      "note": "Arguable: a CFO forecast of a working-capital effect rather than a commitment. (AI-drafted)",
+      "thread_key": "S07gnpUx15s#9",
+      "slices": [
+        "qa",
+        "ai_drafted"
+      ],
+      "ambiguous": true
+    },
+    {
+      "start_char": 42959,
+      "end_char": 43050,
+      "promise_type": "procedural_commitment",
+      "hedge_level": "firm",
+      "note": "Arguable: restates a standing target without a date. (AI-drafted)",
+      "thread_key": "S07gnpUx15s#10",
+      "slices": [
+        "qa",
+        "ai_drafted"
+      ],
+      "ambiguous": true
+    },
+    {
+      "start_char": 17842,
+      "end_char": 17940,
+      "promise_type": "directional_guidance",
+      "hedge_level": "firm",
+      "note": "Arguable: strategy statement; nothing clearly checkable. (AI-drafted)",
+      "thread_key": "S07gnpUx15s#11",
+      "ambiguous": true,
+      "slices": [
+        "ai_drafted"
+      ]
+    }
+  ],
+  "must_not_extract": [
+    {
+      "start_char": 1543,
+      "end_char": 1693,
+      "note": "CEO succession: a personnel decision already taken, not a commitment the company can fail. The original prompt extracted it. (AI-drafted)"
+    },
+    {
+      "start_char": 2074,
+      "end_char": 2126,
+      "note": "Personnel decision, and a board proposal by others. (AI-drafted)"
+    },
+    {
+      "start_char": 2974,
+      "end_char": 3049,
+      "note": "A joke. 'Promise' is figurative. (AI-drafted)"
+    },
+    {
+      "start_char": 3054,
+      "end_char": 3142,
+      "note": "Statement of character; nothing checkable. (AI-drafted)"
+    },
+    {
+      "start_char": 8045,
+      "end_char": 8151,
+      "note": "Social pleasantry about tasting chocolate. (AI-drafted)"
+    },
+    {
+      "start_char": 22026,
+      "end_char": 22138,
+      "note": "An aspiration with no measure or date. (AI-drafted)"
+    },
+    {
+      "start_char": 40630,
+      "end_char": 40689,
+      "note": "Process commentary; nothing could falsify it. (AI-drafted)"
+    },
+    {
+      "start_char": 31973,
+      "end_char": 32041,
+      "note": "Vague expectation; no metric or date. (AI-drafted)"
+    },
+    {
+      "start_char": 49945,
+      "end_char": 50085,
+      "note": "Observation about the market, not something the company undertakes. (AI-drafted)"
+    },
+    {
+      "start_char": 52947,
+      "end_char": 53023,
+      "note": "Macro expectation about external conditions. (AI-drafted)"
+    },
+    {
+      "start_char": 9571,
+      "end_char": 9626,
+      "note": "Presentation logistics. (AI-drafted)"
+    }
+  ],
+  "masked": [
+    {
+      "start_char": 3281,
+      "end_char": 3420,
+      "note": "Contains the extract-v3 exclusion example 'Third-party actions' plus the adjacent announcement it directly teaches. Masked so the rest of the transcript can be held out."
+    }
+  ]
+}

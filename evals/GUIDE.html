@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Promise Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ground: #F4F6F9;
+    --paper: #FFFFFF;
+    --ink: #18202C;
+    --muted: #586273;
+    --rule: #D6DCE5;
+    --accent: #1D5C8C;
+    --accent-soft: #E3EDF6;
+    --pass: #2D7A4C;
+    --pass-soft: #E2F1E7;
+    --block: #B0392F;
+    --block-soft: #F7E4E1;
+    --warn: #8A5E0E;
+    --warn-soft: #F6EEDC;
+    --code-bg: #EAEEF4;
+
+    --display: "Spectral", Georgia, "Times New Roman", serif;
+    --body: "Public Sans", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #10141B;
+      --paper: #171C25;
+      --ink: #E4E8EE;
+      --muted: #9AA4B4;
+      --rule: #2B3342;
+      --accent: #7FB2DE;
+      --accent-soft: #1B2A3A;
+      --pass: #6CC08E;
+      --pass-soft: #16281D;
+      --block: #E7867B;
+      --block-soft: #33201E;
+      --warn: #D9AE5C;
+      --warn-soft: #2D2515;
+      --code-bg: #1D2330;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #10141B;
+    --paper: #171C25;
+    --ink: #E4E8EE;
+    --muted: #9AA4B4;
+    --rule: #2B3342;
+    --accent: #7FB2DE;
+    --accent-soft: #1B2A3A;
+    --pass: #6CC08E;
+    --pass-soft: #16281D;
+    --block: #E7867B;
+    --block-soft: #33201E;
+    --warn: #D9AE5C;
+    --warn-soft: #2D2515;
+    --code-bg: #1D2330;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.6;
+    padding-inline: 20px;
+    padding-block: 0 64px;
+  }
+  .wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  @media (min-width: 980px) {
+    .wrap { grid-template-columns: 210px minmax(0, 1fr); gap: 56px; }
+    nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 32px); align-self: start; }
+  }
+
+  header.masthead {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-block: 48px 36px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 40px;
+  }
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(34px, 6vw, 52px);
+    line-height: 1.08;
+    margin: 0 0 16px;
+    text-wrap: balance;
+  }
+  .lede {
+    font-size: 19px;
+    color: var(--muted);
+    max-width: 62ch;
+    margin: 0;
+  }
+  .meta { margin-top: 18px; font-size: 13px; color: var(--muted); }
+  .meta code { font-size: 12px; }
+
+  nav.toc { font-size: 14px; }
+  nav.toc p { margin: 0 0 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  nav.toc a {
+    display: block;
+    padding: 5px 10px;
+    border-radius: 6px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  nav.toc a:hover { background: var(--accent-soft); }
+  nav.toc a:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (max-width: 979px) {
+    nav.toc ol { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+    nav.toc { border-bottom: 1px solid var(--rule); padding-bottom: 24px; }
+  }
+
+  main { min-width: 0; }
+  section { padding-block: 8px 44px; scroll-margin-top: 24px; }
+  section + section { border-top: 1px solid var(--rule); padding-top: 40px; }
+  h2 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(25px, 3.6vw, 31px);
+    line-height: 1.2;
+    margin: 0 0 14px;
+    text-wrap: balance;
+  }
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 28px 0 8px;
+  }
+  p, li { max-width: 68ch; }
+  p { margin: 0 0 14px; }
+  .muted { color: var(--muted); }
+  code, kbd {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+  strong { font-weight: 650; }
+
+  /* Tables */
+  .table-scroll { overflow-x: auto; margin: 18px 0 8px; border: 1px solid var(--rule); border-radius: 10px; background: var(--paper); }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+  th, td { text-align: left; padding: 10px 14px; vertical-align: top; border-bottom: 1px solid var(--rule); }
+  tr:last-child td { border-bottom: 0; }
+  th { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); background: var(--ground); }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td:first-child { font-weight: 600; }
+
+  /* Figures */
+  figure { margin: 22px 0 10px; }
+  .fig-frame { background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; padding: 18px; overflow-x: auto; }
+  .fig-frame svg { display: block; width: 100%; height: auto; min-width: 560px; color: var(--muted); font-family: var(--body); }
+  figcaption { font-size: 13.5px; color: var(--muted); margin-top: 10px; max-width: 68ch; }
+  svg .box { fill: var(--paper); stroke: var(--rule); stroke-width: 1.5; }
+  svg .box-acc { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+  svg .box-pass { fill: var(--pass-soft); stroke: var(--pass); stroke-width: 1.5; }
+  svg .box-block { fill: var(--block-soft); stroke: var(--block); stroke-width: 1.5; }
+  svg .box-dim { fill: var(--ground); stroke: var(--rule); stroke-width: 1.5; stroke-dasharray: 4 3; }
+  svg .t { fill: var(--ink); font-size: 14px; font-weight: 600; }
+  svg .s { fill: var(--muted); font-size: 12px; }
+  svg .m { fill: var(--ink); font-size: 12.5px; font-family: var(--mono); }
+  svg .lbl { fill: var(--muted); font-size: 11.5px; font-style: italic; }
+  svg .t-pass { fill: var(--pass); font-size: 14px; font-weight: 700; }
+  svg .t-block { fill: var(--block); font-size: 14px; font-weight: 700; }
+  svg .flow { fill: none; stroke: currentColor; stroke-width: 1.5; }
+  svg .flow-acc { fill: none; stroke: var(--accent); stroke-width: 1.5; }
+  svg .flow-dash { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-dasharray: 5 4; }
+  svg .grid { stroke: var(--rule); stroke-width: 1; }
+  svg .axis { fill: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  svg .champ { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+  svg .dot-pass { fill: var(--accent); stroke: var(--paper); stroke-width: 2; }
+  svg .dot-block { fill: var(--paper); stroke: var(--block); stroke-width: 2; }
+  svg .arrowhead { fill: currentColor; }
+  svg .arrowhead-acc { fill: var(--accent); }
+
+  /* Analogy table-as-list */
+  .analogy { display: grid; grid-template-columns: 1fr; border: 1px solid var(--rule); border-radius: 10px; background: var(--paper); margin: 18px 0; }
+  .analogy div { display: grid; grid-template-columns: minmax(140px, 190px) 1fr; gap: 16px; padding: 11px 16px; border-bottom: 1px solid var(--rule); }
+  .analogy div:last-child { border-bottom: 0; }
+  .analogy dt { font-weight: 700; }
+  .analogy dd { margin: 0; color: var(--ink); }
+  .analogy dd code { white-space: nowrap; }
+  @media (max-width: 520px) { .analogy div { grid-template-columns: 1fr; gap: 2px; } }
+
+  /* The referee's checks */
+  ol.checks { counter-reset: c; list-style: none; padding: 0; margin: 18px 0; display: grid; gap: 10px; }
+  ol.checks li {
+    counter-increment: c;
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 12px;
+    align-items: start;
+    max-width: none;
+  }
+  ol.checks li::before {
+    content: counter(c);
+    display: grid;
+    place-items: center;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  ol.checks strong { display: block; }
+  ol.checks span { color: var(--muted); }
+
+  /* Callouts */
+  .note {
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 18px 0;
+    max-width: 72ch;
+  }
+  .note p:last-child { margin-bottom: 0; }
+  .note .tag { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 4px; }
+
+  /* Worked example */
+  .worked { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 18px 0; }
+  .worked div { background: var(--paper); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; }
+  .worked .k { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  .worked .v { font-family: var(--display); font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.2; }
+  .worked .f { font-size: 13px; color: var(--muted); font-family: var(--mono); }
+
+  /* Stage flow */
+  .stages { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 20px 0; }
+  .stage { position: relative; background: var(--paper); border: 1px solid var(--rule); padding: 14px 14px 16px; }
+  .stage:first-child { border-radius: 10px 0 0 10px; }
+  .stage:last-child { border-radius: 0 10px 10px 0; }
+  .stage + .stage { border-left: 0; }
+  .stage + .stage::before {
+    content: "";
+    position: absolute; left: -7px; top: 22px;
+    width: 12px; height: 12px;
+    background: var(--paper);
+    border-top: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+    transform: rotate(45deg);
+  }
+  .stage h4 { margin: 0 0 6px; font-size: 15px; }
+  .stage .cmd { font-family: var(--mono); font-size: 12px; color: var(--accent); display: block; margin-bottom: 8px; }
+  .stage p { font-size: 13.5px; margin: 0 0 8px; }
+  .stage .metric { font-size: 13px; color: var(--muted); }
+  @media (max-width: 760px) {
+    .stages { grid-template-columns: 1fr; }
+    .stage, .stage:first-child, .stage:last-child { border-radius: 0; }
+    .stage:first-child { border-radius: 10px 10px 0 0; }
+    .stage:last-child { border-radius: 0 0 10px 10px; }
+    .stage + .stage { border-left: 1px solid var(--rule); border-top: 0; }
+    .stage + .stage::before { left: 22px; top: -7px; transform: rotate(135deg); }
+  }
+
+  /* Status */
+  .status { list-style: none; padding: 0; margin: 18px 0; display: grid; gap: 8px; }
+  .status li { display: grid; grid-template-columns: 96px 1fr; gap: 14px; align-items: baseline; max-width: none; }
+  .chip { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; padding: 2px 9px; border-radius: 999px; text-align: center; }
+  .chip.done { background: var(--pass-soft); color: var(--pass); }
+  .chip.wait { background: var(--warn-soft); color: var(--warn); }
+  .chip.none { background: var(--code-bg); color: var(--muted); }
+
+  /* Glossary */
+  dl.gloss { display: grid; grid-template-columns: 1fr; gap: 0; margin: 18px 0; border-top: 1px solid var(--rule); }
+  dl.gloss div { display: grid; grid-template-columns: minmax(150px, 200px) 1fr; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--rule); }
+  dl.gloss dt { font-weight: 700; }
+  dl.gloss dd { margin: 0; max-width: 64ch; }
+  @media (max-width: 520px) { dl.gloss div { grid-template-columns: 1fr; gap: 2px; } }
+
+  .illustrative { display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--warn); background: var(--warn-soft); padding: 2px 8px; border-radius: 4px; margin-bottom: 6px; }
+
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">pr_accountability_predictor · evals guide</p>
+  <h1>The Promise Exam</h1>
+  <p class="lede">How this project checks whether a new model, prompt or code change actually makes promise-finding better, and how that progress is recorded over time. Written for someone new to evals.</p>
+  <p class="meta">State as of 22 September 2026. The code lives in <code>src/pr_predictor/evals/</code>, the answer key in <code>evals/</code>.</p>
+</header>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Contents">
+    <p>Contents</p>
+    <ol>
+      <li><a href="#idea">The idea</a></li>
+      <li><a href="#build">Building the exam</a></li>
+      <li><a href="#loop">Each time you change something</a></li>
+      <li><a href="#referee">What the referee checks</a></li>
+      <li><a href="#numbers">The numbers</a></li>
+      <li><a href="#progress">Tracking progress</a></li>
+      <li><a href="#stages">Every stage has an exam</a></li>
+      <li><a href="#today">Where things stand</a></li>
+      <li><a href="#commands">Command cheat sheet</a></li>
+      <li><a href="#glossary">Glossary</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <section id="idea">
+      <h2>The idea: an exam for the pipeline</h2>
+      <p>The pipeline reads investor presentations and pulls out the promises a company makes. When you change something about it — a newer model, a reworded prompt, different chunk sizes — you need to know one thing: <strong>is it actually better, or does it just look better?</strong></p>
+      <p>Reading a handful of outputs and forming an impression can't answer that. So the pipeline sits the same exam every time and is marked the same way. The rest of this guide is the exam, the marking, and the rules that stop the pipeline cheating.</p>
+
+      <dl class="analogy">
+        <div><dt>Exam papers</dt><dd>Transcripts of Barry Callebaut presentations</dd></div>
+        <div><dt>Answer key</dt><dd>The <em>gold set</em>: the promises a person marked in each transcript (<code>evals/gold/</code>)</dd></div>
+        <div><dt>Student</dt><dd>The pipeline: model + prompt + code (the <em>harness</em>)</dd></div>
+        <div><dt>Marker</dt><dd>The scoring code, which compares the student's answers with the key. No AI does this marking; it is plain arithmetic.</dd></div>
+        <div><dt>Anti-cheating rules</dt><dd><em>Splits</em> and <em>leakage checks</em>: the student must never have seen the questions</dd></div>
+        <div><dt>Referee</dt><dd>The <em>gate</em>, which decides whether a new version really beats the old one</dd></div>
+        <div><dt>Record holder</dt><dd>The <em>champion</em>: the best version so far (<code>evals/champion.json</code>)</dd></div>
+        <div><dt>Scoreboard</dt><dd>Every run is saved permanently; <code>eval-history</code> lists them</dd></div>
+      </dl>
+    </section>
+
+    <section id="build">
+      <h2>Building the exam</h2>
+      <p>People do this, occasionally. The transcripts are divided into three piles <strong>before</strong> anyone labels them, and a transcript never moves between piles afterwards.</p>
+
+      <figure>
+        <div class="fig-frame">
+          <svg viewBox="0 0 760 366" role="img" aria-label="Eight transcripts are assigned to three splits before labelling: four examples that feed the prompt and are never scored, two dev transcripts for practice, and two test transcripts for the real exam. Dev and test are labelled by a person to produce the answer key.">
+            <defs>
+              <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0 0 L10 5 L0 10 z" class="arrowhead"/>
+              </marker>
+            </defs>
+            <rect class="box" x="280" y="16" width="200" height="44" rx="8"/>
+            <text class="t" x="380" y="43" text-anchor="middle">8 transcripts on disk</text>
+
+            <path class="flow" d="M380 60 V94" marker-end="url(#a1)"/>
+            <rect class="box-acc" x="240" y="96" width="280" height="48" rx="8"/>
+            <text class="t" x="380" y="117" text-anchor="middle">Assign a split</text>
+            <text class="s" x="380" y="134" text-anchor="middle">evals/splits.json · before anyone labels</text>
+
+            <path class="flow" d="M380 144 V165 H130 V184" marker-end="url(#a1)"/>
+            <path class="flow" d="M380 144 V184" marker-end="url(#a1)"/>
+            <path class="flow" d="M380 165 H630 V184" marker-end="url(#a1)"/>
+
+            <rect class="box-dim" x="30" y="186" width="200" height="70" rx="8"/>
+            <text class="t" x="130" y="208" text-anchor="middle">Examples</text>
+            <text class="s" x="130" y="228" text-anchor="middle">4 transcripts</text>
+            <text class="s" x="130" y="244" text-anchor="middle">never scored</text>
+
+            <rect class="box" x="280" y="186" width="200" height="70" rx="8"/>
+            <text class="t" x="380" y="208" text-anchor="middle">Dev</text>
+            <text class="s" x="380" y="228" text-anchor="middle">2 transcripts</text>
+            <text class="s" x="380" y="244" text-anchor="middle">practise here freely</text>
+
+            <rect class="box" x="530" y="186" width="200" height="70" rx="8"/>
+            <text class="t" x="630" y="208" text-anchor="middle">Test</text>
+            <text class="s" x="630" y="228" text-anchor="middle">2 transcripts</text>
+            <text class="s" x="630" y="244" text-anchor="middle">the real exam · 1 line masked</text>
+
+            <path class="flow" d="M130 256 V298" marker-end="url(#a1)"/>
+            <text class="lbl" x="138" y="282">quoted in</text>
+            <path class="flow" d="M380 256 V298" marker-end="url(#a1)"/>
+            <text class="lbl" x="388" y="282">labelled</text>
+            <path class="flow" d="M630 256 V298" marker-end="url(#a1)"/>
+            <text class="lbl" x="638" y="282">labelled blind</text>
+
+            <rect class="box-dim" x="30" y="300" width="200" height="50" rx="8"/>
+            <text class="t" x="130" y="321" text-anchor="middle">Prompt examples</text>
+            <text class="s" x="130" y="339" text-anchor="middle">shown to the model</text>
+
+            <rect class="box" x="280" y="300" width="450" height="50" rx="8"/>
+            <text class="t" x="505" y="321" text-anchor="middle">Answer key · evals/gold/*.json</text>
+            <text class="s" x="505" y="339" text-anchor="middle">a person marks every promise, then runs build_gold.py</text>
+          </svg>
+        </div>
+        <figcaption>Only dev and test become exam questions. Examples are teaching material: the prompt quotes sentences from them, so they can never be marked.</figcaption>
+      </figure>
+
+      <h3>Why three piles?</h3>
+      <p><strong>Examples.</strong> A student who has already seen the answers isn't being tested. The prompt shows the model a few example sentences, and those came from these four transcripts, so they are never used as exam questions.</p>
+      <p><strong>Dev and test.</strong> If you tweak the prompt over and over against the same exam, you slowly tune it to that exam, like memorising past papers. <em>Dev</em> is where you practise; <em>test</em> is the exam you don't practise on, and it decides promotions.</p>
+      <div class="note">
+        <span class="tag">The masked lines</span>
+        <p>Every transcript we have supplied at least one prompt example. The two test transcripts supplied exactly one each, so that one passage is blanked out (<em>masked</em>) and the rest of the transcript is still used. Anything the model says about a masked passage is ignored.</p>
+      </div>
+
+      <h3>What labelling means</h3>
+      <p>A person reads a whole transcript, Q&amp;A included — about 10–13 thousand words, roughly one to two hours — and for every promise records the exact words, what kind of promise it is, and how firmly it was stated. Tempting non-promises (a joke about the catering, "we will continue to monitor") are recorded too, as things the model must <em>not</em> pick out. The full rules are in <code>evals/GUIDELINES.md</code>.</p>
+      <p>Test transcripts are labelled <strong>blind</strong>: without looking at anything the model said about them, so the key isn't nudged towards the model's opinion.</p>
+    </section>
+
+    <section id="loop">
+      <h2>Each time you change something</h2>
+      <p>This is the loop you'll run again and again. Change one thing, run <code>python -m pr_predictor eval</code>, and read the verdict.</p>
+
+      <figure>
+        <div class="fig-frame">
+          <svg viewBox="0 0 800 684" role="img" aria-label="The evaluation loop. You change one thing; safety checks run and refuse if they fail; the model sits the exam three times; answers are marked against the key and recorded; the referee compares against the champion. A blocked run sends you back to make another change. A passing run can be promoted to champion, which becomes the bar the next run must beat.">
+            <defs>
+              <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0 0 L10 5 L0 10 z" class="arrowhead"/>
+              </marker>
+              <marker id="a2acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0 0 L10 5 L0 10 z" class="arrowhead-acc"/>
+              </marker>
+            </defs>
+
+            <rect class="box" x="180" y="16" width="400" height="52" rx="8"/>
+            <text class="t" x="380" y="38" text-anchor="middle">You change one thing</text>
+            <text class="s" x="380" y="56" text-anchor="middle">the model, the prompt, or the code and settings</text>
+
+            <path class="flow" d="M380 68 V98" marker-end="url(#a2)"/>
+            <rect class="box" x="180" y="100" width="400" height="52" rx="8"/>
+            <text class="t" x="380" y="122" text-anchor="middle">① Safety checks</text>
+            <text class="s" x="380" y="140" text-anchor="middle">answer key still matches? any answers leaked?</text>
+
+            <path class="flow" d="M580 126 H608" marker-end="url(#a2)"/>
+            <rect class="box-block" x="610" y="104" width="160" height="44" rx="8"/>
+            <text class="t-block" x="690" y="123" text-anchor="middle">Refuse to run</text>
+            <text class="s" x="690" y="140" text-anchor="middle">nothing is spent</text>
+
+            <path class="flow" d="M380 152 V182" marker-end="url(#a2)"/>
+            <rect class="box" x="180" y="184" width="400" height="52" rx="8"/>
+            <text class="t" x="380" y="206" text-anchor="middle">② Sit the exam, 3 times</text>
+            <text class="s" x="380" y="224" text-anchor="middle">the model reads every dev and test transcript</text>
+
+            <path class="flow" d="M380 236 V266" marker-end="url(#a2)"/>
+            <rect class="box" x="180" y="268" width="400" height="52" rx="8"/>
+            <text class="t" x="380" y="290" text-anchor="middle">③ Mark against the answer key</text>
+            <text class="s" x="380" y="308" text-anchor="middle">found · missed · wrong · not in the key</text>
+
+            <path class="flow" d="M380 320 V350" marker-end="url(#a2)"/>
+            <rect class="box" x="180" y="352" width="400" height="52" rx="8"/>
+            <text class="t" x="380" y="374" text-anchor="middle">④ Write it on the scoreboard</text>
+            <text class="s" x="380" y="392" text-anchor="middle">kept forever, with exactly what produced it</text>
+
+            <path class="flow" d="M380 404 V434" marker-end="url(#a2)"/>
+            <rect class="box-acc" x="180" y="436" width="400" height="52" rx="8"/>
+            <text class="t" x="380" y="458" text-anchor="middle">⑤ Referee compares with the champion</text>
+            <text class="s" x="380" y="476" text-anchor="middle">six checks, in order — see below</text>
+
+            <path class="flow" d="M380 488 V510 H150 V528" marker-end="url(#a2)"/>
+            <path class="flow" d="M380 510 H650 V528" marker-end="url(#a2)"/>
+            <text class="lbl" x="265" y="503" text-anchor="middle">any check fails</text>
+            <text class="lbl" x="515" y="503" text-anchor="middle">every check passes</text>
+
+            <rect class="box-block" x="60" y="530" width="180" height="56" rx="8"/>
+            <text class="t-block" x="150" y="554" text-anchor="middle">BLOCK</text>
+            <text class="s" x="150" y="573" text-anchor="middle">with the reason why</text>
+
+            <rect class="box-pass" x="550" y="530" width="200" height="56" rx="8"/>
+            <text class="t-pass" x="650" y="554" text-anchor="middle">PASS</text>
+            <text class="s" x="650" y="573" text-anchor="middle">better, and not by luck</text>
+
+            <path class="flow" d="M650 586 V610" marker-end="url(#a2)"/>
+            <text class="lbl" x="658" y="602">if you add --promote</text>
+            <rect class="box-acc" x="550" y="612" width="200" height="56" rx="8"/>
+            <text class="t" x="650" y="636" text-anchor="middle">New champion</text>
+            <text class="s" x="650" y="655" text-anchor="middle">evals/champion.json</text>
+
+            <path class="flow-acc" d="M750 640 H776 V462 H582" marker-end="url(#a2acc)"/>
+            <text class="lbl" transform="translate(792 551) rotate(-90)" text-anchor="middle">the bar the next run must beat</text>
+
+            <path class="flow-dash" d="M60 558 H36 V42 H178" marker-end="url(#a2)"/>
+            <text class="lbl" transform="translate(26 300) rotate(-90)" text-anchor="middle">try another change, run again</text>
+          </svg>
+        </div>
+        <figcaption>One loop per change. A block is not a failure of the system; it is the system telling you the change didn't prove itself. Nothing is promoted unless you ask with <code>--promote</code>.</figcaption>
+      </figure>
+
+      <p>The exam is sat <strong>three times</strong> because a model gives slightly different answers each run. Three runs show how much the score wobbles on its own, so a wobble isn't mistaken for improvement.</p>
+      <p>Every run is written down with a <strong>manifest</strong>: which model, the exact prompt text, the settings, and fingerprints of the code. Months later you can still say exactly what produced a score.</p>
+    </section>
+
+    <section id="referee">
+      <h2>What the referee checks</h2>
+      <p>The gate runs these in order and stops at the first one that fails. The reason is printed, so a block always tells you what to do next.</p>
+      <ol class="checks">
+        <li><div><strong>Did the model find anything the answer key doesn't cover?</strong><span>Those "not in the key" answers might be real promises nobody labelled. A person must label them first; otherwise nobody knows whether the model was right.</span></div></li>
+        <li><div><strong>Is it the same exam, marked the same way?</strong><span>If the answer key or the marking code changed, old and new scores aren't comparable. Re-run the champion on the new exam first.</span></div></li>
+        <li><div><strong>Did only one thing change?</strong><span>Swap the model <em>and</em> the prompt together and you can't tell which one helped. Change one of: model, prompt, code and settings.</span></div></li>
+        <li><div><strong>Can every answer still be traced to the transcript?</strong><span>If fewer answers point to real words, it's blocked whatever the score. A claim about a company that can't be cited is unacceptable here.</span></div></li>
+        <li><div><strong>Did it pick out more of the known traps?</strong><span>The catering joke and friends. More of these is blocked.</span></div></li>
+        <li><div><strong>Is the score higher by more than luck would explain?</strong><span>With at least five scored transcripts, the whole likely range of the improvement must sit above zero. With fewer, it compares the raw scores and labels the verdict <strong>UNDERPOWERED</strong>.</span></div></li>
+      </ol>
+    </section>
+
+    <section id="numbers">
+      <h2>The numbers, in plain words</h2>
+      <p>An answer counts as correct when it covers at least half of a promise in the key. The model doesn't have to pick exactly the same start and end words as the person did.</p>
+
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Number</th><th>Plain meaning</th><th>Why it matters here</th></tr></thead>
+          <tbody>
+            <tr><td>Precision</td><td>Of the things it called promises, how many really were?</td><td>Low precision means accusing a company of promises it never made.</td></tr>
+            <tr><td>Recall</td><td>Of the real promises, how many did it find?</td><td>Low recall means commitments slip through unnoticed.</td></tr>
+            <tr><td>F1</td><td>One number that balances the two. <strong>The headline score.</strong></td><td>What the referee compares.</td></tr>
+            <tr><td>Span fidelity</td><td>Can every answer be pointed to in the transcript?</td><td>Must never go down. It's the product's promise to users.</td></tr>
+            <tr><td>Type, hedge, deadline accuracy</td><td>For promises it found: right kind, right firmness, right date?</td><td>Reported for insight; the referee doesn't decide on them.</td></tr>
+            <tr><td>Likely range</td><td>"The true score is probably between X and Y."</td><td>Wide range = too little evidence to be sure.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>A worked example</h3>
+      <p class="muted">Made-up numbers. A transcript's key has 10 real promises. The model lists 8 things; 6 are real promises, 2 are not.</p>
+      <div class="worked">
+        <div><span class="k">Precision</span><div class="v">75%</div><span class="f">6 right ÷ 8 listed</span></div>
+        <div><span class="k">Recall</span><div class="v">60%</div><span class="f">6 found ÷ 10 real</span></div>
+        <div><span class="k">F1</span><div class="v">0.67</div><span class="f">balances the two</span></div>
+      </div>
+
+      <div class="note">
+        <span class="tag">Why "UNDERPOWERED"?</span>
+        <p>Flip a coin 4 times and get 3 heads: you can't conclude the coin is unfair. Flip it 400 times and get 300: you can. Each labelled transcript is another flip. With 4 scored transcripts the system can't yet tell luck from real improvement, so it says so rather than pretending. More labelled transcripts fixes this.</p>
+      </div>
+    </section>
+
+    <section id="progress">
+      <h2>Tracking progress over time</h2>
+      <p>Every run goes on the scoreboard. Over months that becomes a history of everything you tried and why the pipeline is the way it is. The champion only moves when a run earns it.</p>
+
+      <figure>
+        <span class="illustrative">Illustrative — not real results</span>
+        <div class="fig-frame">
+          <svg viewBox="0 0 760 276" role="img" aria-label="Illustrative chart of F1 score across seven runs. Filled dots passed and became champion; hollow dots were blocked. The champion line steps up only on passing runs, and resets downward once when the answer key grew and scores were re-based.">
+            <line class="grid" x1="70" y1="30" x2="740" y2="30"/>
+            <line class="grid" x1="70" y1="80" x2="740" y2="80"/>
+            <line class="grid" x1="70" y1="130" x2="740" y2="130"/>
+            <line class="grid" x1="70" y1="180" x2="740" y2="180"/>
+            <line class="grid" x1="70" y1="230" x2="740" y2="230"/>
+            <text class="axis" x="58" y="34" text-anchor="end">1.00</text>
+            <text class="axis" x="58" y="84" text-anchor="end">0.75</text>
+            <text class="axis" x="58" y="134" text-anchor="end">0.50</text>
+            <text class="axis" x="58" y="184" text-anchor="end">0.25</text>
+            <text class="axis" x="58" y="234" text-anchor="end">0</text>
+            <text class="axis" x="14" y="130" transform="rotate(-90 14 130)" text-anchor="middle">F1</text>
+
+            <path class="champ" d="M90 190 H190 V90 H290 V86 H490"/>
+            <path class="flow-dash" style="color: var(--accent)" d="M490 86 V98"/>
+            <path class="champ" d="M490 98 H590 V82 H700"/>
+
+            <circle class="dot-pass" cx="90" cy="190" r="6"/>
+            <circle class="dot-pass" cx="190" cy="90" r="6"/>
+            <circle class="dot-pass" cx="290" cy="86" r="6"/>
+            <circle class="dot-block" cx="390" cy="94" r="6"/>
+            <circle class="dot-pass" cx="490" cy="98" r="6"/>
+            <circle class="dot-pass" cx="590" cy="82" r="6"/>
+            <circle class="dot-block" cx="690" cy="80" r="6"/>
+
+            <text class="lbl" x="498" y="124">answer key grew:</text>
+            <text class="lbl" x="498" y="139">scores re-based</text>
+
+            <text class="axis" x="90" y="254" text-anchor="middle">#1</text>
+            <text class="axis" x="190" y="254" text-anchor="middle">#2</text>
+            <text class="axis" x="290" y="254" text-anchor="middle">#3</text>
+            <text class="axis" x="390" y="254" text-anchor="middle">#4</text>
+            <text class="axis" x="490" y="254" text-anchor="middle">#5</text>
+            <text class="axis" x="590" y="254" text-anchor="middle">#6</text>
+            <text class="axis" x="690" y="254" text-anchor="middle">#7</text>
+            <text class="axis" x="405" y="272" text-anchor="middle">run</text>
+          </svg>
+        </div>
+        <figcaption>Blue line: the champion's score. Filled dots passed the referee; hollow red dots were blocked. At run #5 more transcripts were labelled, so the champion was re-scored on the bigger exam before anything else could be compared with it.</figcaption>
+      </figure>
+
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Run</th><th>What changed</th><th>F1</th><th>Likely gain vs champion</th><th>Referee</th></tr></thead>
+          <tbody>
+            <tr><td>#1</td><td>extract-v1, the original prompt</td><td class="num">0.20</td><td>underpowered</td><td>PASS — first champion</td></tr>
+            <tr><td>#2</td><td>extract-v3 prompt</td><td class="num">0.70</td><td>underpowered</td><td>PASS → champion</td></tr>
+            <tr><td>#3</td><td>Sonnet → Opus (model only)</td><td class="num">0.72</td><td>underpowered</td><td>PASS, but could be luck</td></tr>
+            <tr><td>#4</td><td>Chunk size 1800 → 900 words</td><td class="num">0.68</td><td>underpowered</td><td>BLOCK — not better</td></tr>
+            <tr><td>#5</td><td>Champion re-run on a bigger answer key</td><td class="num">0.66</td><td>— (new exam)</td><td>PASS — new baseline</td></tr>
+            <tr><td>#6</td><td>extract-v4 prompt</td><td class="num">0.74</td><td class="num">+0.03 to +0.13</td><td>PASS → champion</td></tr>
+            <tr><td>#7</td><td>Chunk size again</td><td class="num">0.75</td><td class="num">−0.02 to +0.05</td><td>BLOCK — not established</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Two things to notice. Run #7 scored <em>higher</em> than the champion and was still blocked: its likely range includes "no improvement at all". And the score went <em>down</em> at #5 without anything getting worse — the exam got harder and more complete, which is why scores are only ever compared on the same exam.</p>
+    </section>
+
+    <section id="stages">
+      <h2>Every stage has its own exam</h2>
+      <p>Finding promises is only the first step. Each later step is tested separately and fed the correct input from the answer key, so a mistake in an early step is never blamed on a later one.</p>
+
+      <div class="stages">
+        <div class="stage">
+          <h4>Find promises</h4>
+          <span class="cmd">eval</span>
+          <p>Answer key: 10 promises in 2 dev transcripts, plus 2 test transcripts in progress.</p>
+          <span class="metric">F1, span fidelity. <strong>Decides promotions.</strong></span>
+        </div>
+        <div class="stage">
+          <h4>Group restatements</h4>
+          <span class="cmd">eval-threads</span>
+          <p>Does it recognise the same promise said twice? A moved deadline must stay separate.</p>
+          <span class="metric">Pair score; any wrongly merged revision fails outright.</span>
+        </div>
+        <div class="stage">
+          <h4>Decide kept or missed</h4>
+          <span class="cmd">eval-adjudication</span>
+          <p>Given a promise and the evidence, is the verdict right? Needs cases written by a person.</p>
+          <span class="metric">Verdict accuracy. No cases yet.</span>
+        </div>
+        <div class="stage">
+          <h4>Predict the future</h4>
+          <span class="cmd">eval-predictions</span>
+          <p>Marked by reality: when a deadline passes, we find out whether the prediction was right.</p>
+          <span class="metric">Brier score and calibration. Nothing resolved yet.</span>
+        </div>
+      </div>
+
+      <p>The last one is the most trustworthy exam of all, because nobody can cheat on the future. Only predictions made <em>before</em> their deadline count.</p>
+      <p>There's also an optional <strong>judge</strong> (<code>eval --judge</code>): a different AI model checks that each promise's one-line summary says what the speaker said. It is never used by the referee until it has been checked against a person's judgement.</p>
+      <p class="muted">Not measured yet: how well the pipeline <em>finds evidence</em> for a verdict, and fetching transcripts (covered by code tests only).</p>
+    </section>
+
+    <section id="today">
+      <h2>Where things stand</h2>
+      <ul class="status">
+        <li><span class="chip done">DONE</span><span>The exam system is built and its own 112 tests pass.</span></li>
+        <li><span class="chip done">DONE</span><span>Practice exam (dev): 2 transcripts with an answer key of 10 promises.</span></li>
+        <li><span class="chip wait">TO DO</span><span>Real exam (test): <code>S07gnpUx15s</code> and <code>1FUvRp9MGpU</code> are waiting to be labelled blind, in <code>evals/labels/</code>.</span></li>
+        <li><span class="chip wait">TO DO</span><span>First real run, to set the first champion. Needs the API key and costs a little money.</span></li>
+        <li><span class="chip none">LATER</span><span>More labelled transcripts, so verdicts stop being underpowered (the system wants at least 5 scored).</span></li>
+        <li><span class="chip none">LATER</span><span>Adjudication cases and judge checks, written by a person.</span></li>
+      </ul>
+      <p>One early finding from the threading exam: the current grouping rules miss the one labelled restatement (the Q1 guidance promise repeated in Q&amp;A). Only the model tie-break can link it — exactly the kind of thing this benchmark exists to surface.</p>
+    </section>
+
+    <section id="commands">
+      <h2>Command cheat sheet</h2>
+      <p>All commands start with <code>python -m pr_predictor</code>, except the two scripts in <code>evals/</code>.</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Command</th><th>What it answers</th><th>Costs money?</th></tr></thead>
+          <tbody>
+            <tr><td><code>eval</code></td><td>Is the current setup better than the champion?</td><td>Yes</td></tr>
+            <tr><td><code>eval --promote</code></td><td>Same, and make it the champion if it passes</td><td>Yes</td></tr>
+            <tr><td><code>eval --models A,B</code></td><td>Which model does best, everything else fixed?</td><td>Yes</td></tr>
+            <tr><td><code>eval --harness chunk_words=900</code></td><td>Does a settings change help?</td><td>Yes</td></tr>
+            <tr><td><code>eval --judge</code></td><td>Are the one-line summaries faithful?</td><td>Yes</td></tr>
+            <tr><td><code>eval-threads</code></td><td>Are restatements grouped correctly?</td><td>No</td></tr>
+            <tr><td><code>eval-adjudication</code></td><td>Are kept/missed verdicts right?</td><td>Yes</td></tr>
+            <tr><td><code>eval-predictions</code></td><td>How good were past predictions?</td><td>No</td></tr>
+            <tr><td><code>eval-history</code></td><td>The scoreboard</td><td>No</td></tr>
+            <tr><td><code>eval-agreement --a … --b …</code></td><td>How much do two labellers agree?</td><td>No</td></tr>
+            <tr><td><code>python evals/show_transcript.py &lt;id&gt;</code></td><td>A readable copy of a transcript for labelling</td><td>No</td></tr>
+            <tr><td><code>python evals/build_gold.py</code></td><td>Turn labels into the answer key</td><td>No</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="glossary">
+      <h2>Glossary</h2>
+      <dl class="gloss">
+        <div><dt>Benchmark / eval</dt><dd>A fixed exam with an answer key, used to compare versions fairly.</dd></div>
+        <div><dt>Gold set</dt><dd>The answer key: promises a person has marked in transcripts.</dd></div>
+        <div><dt>Harness</dt><dd>Everything around the model: the code that chunks transcripts, calls the model and checks its answers.</dd></div>
+        <div><dt>Split</dt><dd>Which pile a transcript is in: examples, dev, test (or fresh, for transcripts newer than the model's training).</dd></div>
+        <div><dt>Leakage / contamination</dt><dd>The model having seen exam answers — for instance a prompt example taken from an exam transcript. The eval refuses to run when it detects this.</dd></div>
+        <div><dt>Mask</dt><dd>A blanked-out passage that is never scored, used for the one example sentence in each test transcript.</dd></div>
+        <div><dt>Labelled blind</dt><dd>Labelled without seeing the model's answers first, so the key isn't nudged towards the model.</dd></div>
+        <div><dt>Exhaustive</dt><dd>Every promise in a transcript is labelled. Only then is precision fully trustworthy.</dd></div>
+        <div><dt>Unjudged</dt><dd>Something the model found that the key doesn't cover. A person must label it before the referee will promote.</dd></div>
+        <div><dt>Repeats</dt><dd>Running the same exam several times to see how much scores wobble on their own.</dd></div>
+        <div><dt>Likely range</dt><dd>The spread the true score probably lies in (a "confidence interval"). Narrows as more transcripts are labelled.</dd></div>
+        <div><dt>Underpowered</dt><dd>Too few exam papers to tell a real improvement from luck.</dd></div>
+        <div><dt>Champion</dt><dd>The best version so far — the bar every new run must beat.</dd></div>
+        <div><dt>Gate</dt><dd>The referee: the rules that decide whether a run beats the champion.</dd></div>
+        <div><dt>Manifest</dt><dd>The label on each result saying exactly what produced it: model, prompt, settings, code.</dd></div>
+        <div><dt>Slice</dt><dd>A tagged subset of promises (fiscal-year deadlines, Q&amp;A, garbled words) scored separately, so a weakness shows even when the average doesn't move.</dd></div>
+      </dl>
+    </section>
+  </main>
+</div>
+</body>
+</html>

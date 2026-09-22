@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Label Desk</title>
+<style>
+  :root {
+    --ground: #F3F5F8;
+    --paper: #FFFFFF;
+    --ink: #1A2230;
+    --muted: #5A6477;
+    --rule: #D7DDE6;
+    --accent: #1D5C8C;
+    --accent-soft: #DCE9F5;
+    --promise-bg: #D6E8F7;
+    --promise-line: #1D5C8C;
+    --neg-bg: #F7DEDA;
+    --neg-line: #B0392F;
+    --draft-bg: #FCEBB6;
+    --draft-line: #9A6A12;
+    --mask-bg: #E4E7EC;
+    --ok: #2D7A4C;
+    --ok-soft: #E2F1E7;
+    --bad: #B0392F;
+    --bad-soft: #F7E4E1;
+    --warn: #8A5E0E;
+    --warn-soft: #F6EEDC;
+    --serif: "Iowan Old Style", "Charter", "Georgia", "Cambria", serif;
+    --sans: -apple-system, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #10141B;
+      --paper: #171C25;
+      --ink: #E4E8EE;
+      --muted: #9AA4B4;
+      --rule: #2B3342;
+      --accent: #7FB2DE;
+      --accent-soft: #1B2A3A;
+      --promise-bg: #1E3550;
+      --promise-line: #7FB2DE;
+      --neg-bg: #43231F;
+      --neg-line: #E7867B;
+      --draft-bg: #4A3A12;
+      --draft-line: #D9AE5C;
+      --mask-bg: #232A36;
+      --ok: #6CC08E;
+      --ok-soft: #16281D;
+      --bad: #E7867B;
+      --bad-soft: #33201E;
+      --warn: #D9AE5C;
+      --warn-soft: #2D2515;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #10141B; --paper: #171C25; --ink: #E4E8EE; --muted: #9AA4B4; --rule: #2B3342;
+    --accent: #7FB2DE; --accent-soft: #1B2A3A; --promise-bg: #1E3550; --promise-line: #7FB2DE;
+    --neg-bg: #43231F; --neg-line: #E7867B; --draft-bg: #4A3A12; --draft-line: #D9AE5C;
+    --mask-bg: #232A36; --ok: #6CC08E; --ok-soft: #16281D; --bad: #E7867B; --bad-soft: #33201E;
+    --warn: #D9AE5C; --warn-soft: #2D2515;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { background: var(--ground); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.5; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Top bar */
+  .bar {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--paper); border-bottom: 1px solid var(--rule);
+    padding: 10px 20px;
+    display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center;
+  }
+  .brand { font-weight: 700; font-size: 15px; letter-spacing: 0.01em; }
+  .bar select { padding: 6px 10px; border: 1px solid var(--rule); border-radius: 8px; background: var(--paper); max-width: 100%; }
+  .split { font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .split.test { background: var(--warn-soft); color: var(--warn); }
+  .counts { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .save { margin-left: auto; font-size: 13px; color: var(--muted); }
+  .save.ok { color: var(--ok); }
+  .save.bad { color: var(--bad); font-weight: 600; }
+  .progress { position: absolute; left: 0; bottom: -1px; height: 2px; background: var(--accent); width: 0; }
+
+  .banner { margin: 16px 20px 0; padding: 10px 14px; border-radius: 10px; background: var(--warn-soft); color: var(--ink); border: 1px solid var(--rule); font-size: 13.5px; }
+  .banner strong { color: var(--warn); }
+
+  /* Layout */
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr) 390px; gap: 24px; padding: 16px 20px 60px; align-items: start; }
+  @media (max-width: 1000px) { .layout { grid-template-columns: 1fr; } .side { position: static !important; max-height: none !important; } }
+
+  /* Transcript */
+  .doc { background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; padding: 28px clamp(18px, 4vw, 44px); }
+  .doc h1 { font-family: var(--serif); font-size: 22px; margin: 0 0 4px; line-height: 1.3; }
+  .doc .sub { color: var(--muted); font-size: 13px; margin: 0 0 22px; }
+  .doc .sub a { color: var(--accent); }
+  #text { font-family: var(--serif); font-size: 17.5px; line-height: 1.8; max-width: 72ch; white-space: pre-wrap; overflow-wrap: anywhere; }
+  #text ::selection { background: var(--draft-bg); }
+  .hl { border-radius: 3px; cursor: pointer; padding: 1px 0; }
+  .hl.p { background: var(--promise-bg); box-shadow: inset 0 -2px 0 var(--promise-line); }
+  .hl.n { background: var(--neg-bg); box-shadow: inset 0 -2px 0 var(--neg-line); }
+  .hl.d { background: var(--draft-bg); box-shadow: inset 0 -2px 0 var(--draft-line); cursor: default; }
+  .hl.active { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .mask { background: repeating-linear-gradient(135deg, var(--mask-bg) 0 6px, transparent 6px 12px); color: var(--muted); user-select: none; -webkit-user-select: none; border-radius: 3px; }
+  .mask-tag { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); background: var(--mask-bg); padding: 1px 6px; border-radius: 4px; margin-right: 4px; user-select: none; -webkit-user-select: none; }
+
+  /* Side panel */
+  .side { position: sticky; top: 64px; max-height: calc(100vh - 80px); overflow-y: auto; display: grid; gap: 14px; }
+  .card { background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; padding: 16px; }
+  .card h2 { font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .hint { color: var(--muted); font-size: 13px; margin: 0; }
+  .quote { font-family: var(--serif); font-size: 15px; line-height: 1.55; border-left: 3px solid var(--draft-line); padding: 2px 0 2px 12px; margin: 0 0 12px; max-height: 9.5em; overflow-y: auto; }
+  .quote.p { border-color: var(--promise-line); }
+  .quote.n { border-color: var(--neg-line); }
+  .field { display: grid; gap: 6px; margin-bottom: 12px; }
+  .field > label, .field > .lab { font-size: 12.5px; font-weight: 650; }
+  .seg { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .seg button {
+    text-align: left; padding: 7px 9px; border: 1px solid var(--rule); border-radius: 8px; background: var(--paper); cursor: pointer; line-height: 1.3;
+  }
+  .seg button small { display: block; color: var(--muted); font-size: 11.5px; margin-top: 2px; }
+  .seg button:hover { border-color: var(--accent); }
+  .seg button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+  .seg.kind button[data-v="n"][aria-pressed="true"] { border-color: var(--neg-line); background: var(--neg-bg); box-shadow: inset 0 0 0 1px var(--neg-line); }
+  textarea, input[type="text"], input[type="date"] { width: 100%; padding: 7px 9px; border: 1px solid var(--rule); border-radius: 8px; background: var(--paper); }
+  textarea { min-height: 62px; resize: vertical; }
+  details { border-top: 1px solid var(--rule); padding-top: 10px; margin-top: 4px; }
+  summary { cursor: pointer; font-weight: 650; font-size: 13px; margin-bottom: 8px; }
+  .checks { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 13px; }
+  .checks label, .radios label { display: inline-flex; gap: 5px; align-items: center; cursor: pointer; }
+  .radios { display: grid; gap: 5px; font-size: 13px; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .btn { padding: 8px 14px; border-radius: 8px; border: 1px solid var(--rule); background: var(--paper); cursor: pointer; font-weight: 600; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+  .btn.primary:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn.danger { color: var(--bad); margin-left: auto; }
+  .msg { font-size: 13px; padding: 8px 10px; border-radius: 8px; margin: 0 0 12px; }
+  .msg.bad { background: var(--bad-soft); color: var(--bad); }
+  .msg.warn { background: var(--warn-soft); color: var(--warn); }
+
+  /* Label list */
+  .list { display: grid; gap: 4px; }
+  .list h3 { font-size: 12.5px; margin: 10px 0 4px; }
+  .list h3:first-child { margin-top: 0; }
+  .item { text-align: left; border: 1px solid transparent; background: none; border-radius: 8px; padding: 7px 8px; cursor: pointer; display: grid; gap: 3px; width: 100%; }
+  .item:hover { background: var(--ground); }
+  .item.active { border-color: var(--accent); background: var(--accent-soft); }
+  .item .ph { font-family: var(--serif); font-size: 13.5px; line-height: 1.35; }
+  .item .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag { font-size: 11px; padding: 1px 7px; border-radius: 999px; background: var(--ground); color: var(--muted); border: 1px solid var(--rule); }
+  .tag.amb { color: var(--warn); border-color: var(--warn); }
+  .tag.missing { color: var(--bad); border-color: var(--bad); }
+
+  /* Status */
+  .status label { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 8px; cursor: pointer; }
+  .status .who { margin-bottom: 10px; }
+  .done { background: var(--ok-soft); color: var(--ok); font-weight: 600; padding: 8px 10px; border-radius: 8px; font-size: 13px; }
+  kbd { font-family: var(--mono); font-size: 11.5px; border: 1px solid var(--rule); border-bottom-width: 2px; border-radius: 4px; padding: 0 4px; }
+</style>
+</head>
+<body>
+
+<div class="bar" id="bar">
+  <span class="brand">Label Desk</span>
+  <select id="docSel" aria-label="Transcript"></select>
+  <span class="split" id="split"></span>
+  <span class="counts" id="counts"></span>
+  <span class="save" id="save" role="status" aria-live="polite"></span>
+  <div class="progress" id="progress"></div>
+</div>
+
+<div class="banner" id="blind" hidden>
+  <strong>Test transcript: label blind.</strong> Don't look at model output for this transcript
+  (<code>promises</code>, <code>threads</code>, <code>eval</code>) until it is marked complete. This page only ever shows the transcript and your own labels.
+</div>
+
+<div class="layout">
+  <article class="doc">
+    <h1 id="title">Loading…</h1>
+    <p class="sub" id="sub"></p>
+    <div id="text" aria-label="Transcript text"></div>
+  </article>
+
+  <aside class="side">
+    <section class="card" id="editor" aria-label="Label editor">
+      <h2 id="edTitle">Add a label</h2>
+      <div id="edBody"></div>
+    </section>
+
+    <section class="card">
+      <h2>Your labels</h2>
+      <div class="list" id="list"></div>
+    </section>
+
+    <section class="card status">
+      <h2>Transcript status</h2>
+      <div class="field who">
+        <label for="who">Labelled by</label>
+        <input type="text" id="who" placeholder="Your name, date">
+      </div>
+      <label><input type="checkbox" id="exhaustive"> <span>Every promise in this transcript is labelled <span class="hint">(exhaustive)</span></span></label>
+      <label><input type="checkbox" id="complete"> <span>Labelling complete: score this transcript</span></label>
+      <p class="hint">Marking complete adds it to the exam. Only do it after reading the whole transcript, Q&amp;A included.</p>
+    </section>
+  </aside>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var TYPES = [
+    ["quantified_target", "Quantified target", "a number you could check"],
+    ["scheduling_announcement", "Scheduling", "an event on a date"],
+    ["procedural_commitment", "Procedural", "doing it is the outcome"],
+    ["directional_guidance", "Directional", "a direction, no number"]
+  ];
+  var HEDGES = [
+    ["firm", "Firm", "we will · we commit"],
+    ["intended", "Intended", "we aim · we target · we plan"],
+    ["conditional", "Conditional", "we expect · should · assuming"],
+    ["aspirational", "Aspirational", "our ambition · we'd like"]
+  ];
+  var SLICES = [
+    ["fiscal_deadline", "fiscal-year deadline"],
+    ["qa", "said in Q&A"],
+    ["restatement", "restates earlier promise"],
+    ["asr_garble", "garbled words"],
+    ["moderator", "said by moderator"],
+    ["revised_deadline", "moves a target"],
+    ["pooled", "added after blind pass"]
+  ];
+
+  var S = {
+    docs: [], doc: null, labels: null, masks: [],
+    spans: [], draft: null, active: null, dirty: false, saving: false, timer: null, error: null
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var textEl = $("text");
+
+  function el(tag, attrs, kids) {
+    var e = document.createElement(tag);
+    Object.keys(attrs || {}).forEach(function (k) {
+      if (k === "text") e.textContent = attrs[k];
+      else if (k === "class") e.className = attrs[k];
+      else if (k.slice(0, 2) === "on") e.addEventListener(k.slice(2), attrs[k]);
+      else e.setAttribute(k, attrs[k]);
+    });
+    (kids || []).forEach(function (c) { if (c) e.appendChild(typeof c === "string" ? document.createTextNode(c) : c); });
+    return e;
+  }
+
+  function esc(w) { return w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+  function hits(text, phrase) {
+    var words = String(phrase || "").trim().split(/\s+/).filter(Boolean);
+    if (!words.length) return [];
+    var re = new RegExp(words.map(esc).join("\\s+"), "g"), out = [], m;
+    while ((m = re.exec(text))) { out.push([m.index, m.index + m[0].length]); if (m[0].length === 0) re.lastIndex++; }
+    return out;
+  }
+  function short(s, n) { s = String(s).replace(/\s+/g, " ").trim(); return s.length > n ? s.slice(0, n - 1) + "…" : s; }
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+
+  /* ---------------- loading ---------------- */
+
+  function api(method, url, body) {
+    return fetch(url, {
+      method: method,
+      headers: body ? { "Content-Type": "application/json" } : {},
+      body: body ? JSON.stringify(body) : undefined
+    }).then(function (r) { return r.json().then(function (j) { j._status = r.status; return j; }); });
+  }
+
+  function loadDocs(selectId) {
+    return api("GET", "/api/docs").then(function (docs) {
+      S.docs = docs;
+      var sel = $("docSel");
+      sel.textContent = "";
+      docs.forEach(function (d) {
+        var state = d.complete && d.exhaustive ? "✓ done, " + d.promises + " promises"
+          : d.promises + " promises, " + (d.complete ? "partial" : "in progress");
+        sel.appendChild(el("option", { value: d.id, text: (d.title || d.id) + "  ·  " + d.split + "  ·  " + state }));
+      });
+      var want = selectId || store("labeldesk.doc") || (docs[0] && docs[0].id);
+      if (!docs.some(function (d) { return d.id === want; })) want = docs[0] && docs[0].id;
+      sel.value = want;
+      return want;
+    });
+  }
+
+  function openDoc(id) {
+    if (S.dirty && !confirm("You have unsaved changes. Switch anyway?")) { $("docSel").value = S.doc.id; return; }
+    saveScroll();
+    api("GET", "/api/doc?id=" + encodeURIComponent(id)).then(function (d) {
+      S.doc = d; S.labels = d.labels; S.masks = d.masks;
+      S.labels.promises = S.labels.promises || [];
+      S.labels.must_not_extract = S.labels.must_not_extract || [];
+      S.draft = null; S.active = null; S.dirty = false; S.error = null;
+      store("labeldesk.doc", id);
+      $("title").textContent = d.title || d.id;
+      var sub = $("sub"); sub.textContent = (d.date || "") + "  ·  " + d.id + "  ·  ";
+      if (d.url) sub.appendChild(el("a", { href: d.url, target: "_blank", rel: "noopener", text: "video" }));
+      $("split").textContent = d.split;
+      $("split").className = "split " + d.split;
+      $("blind").hidden = d.split !== "test";
+      $("who").value = S.labels.labelled_by || "";
+      $("exhaustive").checked = !!S.labels.exhaustive;
+      $("complete").checked = !!S.labels.labelling_complete;
+      setSave("", "");
+      renderAll();
+      var y = +store("labeldesk.scroll." + id);
+      window.scrollTo(0, isFinite(y) ? y : 0);
+    });
+  }
+
+  /* ---------------- resolving + rendering the transcript ---------------- */
+
+  function resolve() {
+    var text = S.doc.text, spans = [];
+    S.labels.promises.forEach(function (p, i) {
+      var h = hits(text, p[0]);
+      spans.push({ kind: "p", i: i, start: h[0] ? h[0][0] : -1, end: h[0] ? h[0][1] : -1, count: h.length });
+    });
+    S.labels.must_not_extract.forEach(function (n, i) {
+      var h = hits(text, n[0]);
+      spans.push({ kind: "n", i: i, start: h[0] ? h[0][0] : -1, end: h[0] ? h[0][1] : -1, count: h.length });
+    });
+    S.spans = spans;
+  }
+
+  function renderText() {
+    var text = S.doc.text;
+    var marks = [];
+    S.masks.forEach(function (m) { marks.push({ start: m.start, end: m.end, cls: "mask" }); });
+    S.spans.forEach(function (s) { if (s.start >= 0) marks.push({ start: s.start, end: s.end, cls: "hl " + s.kind, kind: s.kind, i: s.i }); });
+    if (S.draft && !S.draft.edit) marks.push({ start: S.draft.start, end: S.draft.end, cls: "hl d" });
+    marks.sort(function (a, b) { return a.start - b.start || b.end - a.end; });
+
+    var frag = document.createDocumentFragment(), pos = 0;
+    marks.forEach(function (m) {
+      if (m.start < pos) return; // overlapping marks: first one wins
+      if (m.start > pos) frag.appendChild(el("span", { "data-s": pos, text: text.slice(pos, m.start) }));
+      var attrs = { "data-s": m.start, "class": m.cls, text: text.slice(m.start, m.end) };
+      if (m.kind) { attrs["data-k"] = m.kind; attrs["data-i"] = m.i; }
+      var isActive = S.active && m.kind === S.active.kind && m.i === S.active.i;
+      if (isActive) attrs["class"] += " active";
+      if (m.cls === "mask") {
+        frag.appendChild(el("span", { "class": "mask-tag", title: "A prompt example: never labelled, never scored", text: "masked" }));
+      }
+      frag.appendChild(el("span", attrs));
+      pos = m.end;
+    });
+    if (pos < text.length) frag.appendChild(el("span", { "data-s": pos, text: text.slice(pos) }));
+    textEl.textContent = "";
+    textEl.appendChild(frag);
+  }
+
+  function renderCounts() {
+    var p = S.labels.promises.length, n = S.labels.must_not_extract.length;
+    $("counts").textContent = p + " promise" + (p === 1 ? "" : "s") + " · " + n + " not-a-promise";
+  }
+
+  function renderList() {
+    var list = $("list"); list.textContent = "";
+    var groups = [["p", "Promises", S.labels.promises], ["n", "Not promises (traps)", S.labels.must_not_extract]];
+    groups.forEach(function (g) {
+      list.appendChild(el("h3", { text: g[1] + " (" + g[2].length + ")" }));
+      var rows = S.spans.filter(function (s) { return s.kind === g[0]; });
+      rows.sort(function (a, b) { return (a.start < 0 ? 1e9 : a.start) - (b.start < 0 ? 1e9 : b.start); });
+      if (!rows.length) list.appendChild(el("p", { "class": "hint", text: g[0] === "p" ? "None yet. Highlight a passage in the transcript." : "Optional: tempting passages that are not promises." }));
+      rows.forEach(function (s) {
+        var item = g[2][s.i], tags = [];
+        if (s.kind === "p") {
+          tags.push(el("span", { "class": "tag", text: labelOf(TYPES, item[1]) }));
+          tags.push(el("span", { "class": "tag", text: labelOf(HEDGES, item[2]) }));
+          var ex = item[4] || {};
+          if (ex.ambiguous) tags.push(el("span", { "class": "tag amb", text: "ambiguous" }));
+          (ex.slices || []).forEach(function (sl) { tags.push(el("span", { "class": "tag", text: sl })); });
+        }
+        if (s.count !== 1) tags.push(el("span", { "class": "tag missing", text: s.count ? "appears " + s.count + "×" : "not found" }));
+        var active = S.active && S.active.kind === s.kind && S.active.i === s.i;
+        list.appendChild(el("button", {
+          "class": "item" + (active ? " active" : ""), type: "button",
+          onclick: function () { edit(s.kind, s.i, true); }
+        }, [el("span", { "class": "ph", text: short(item[0], 110) }), el("span", { "class": "tags" }, tags)]));
+      });
+    });
+  }
+
+  function labelOf(table, v) { var r = table.filter(function (t) { return t[0] === v; })[0]; return r ? r[1] : v; }
+
+  /* ---------------- selection -> draft ---------------- */
+
+  function absOffset(node, off) {
+    if (node.nodeType === 3) {
+      var span = node.parentElement.closest("[data-s]");
+      return span ? +span.getAttribute("data-s") + off : null;
+    }
+    if (node === textEl) {
+      if (off >= textEl.childNodes.length) return S.doc.text.length;
+      var c = textEl.childNodes[off];
+      return c.hasAttribute && c.hasAttribute("data-s") ? +c.getAttribute("data-s") : null;
+    }
+    var s = node.closest && node.closest("[data-s]");
+    if (!s) return null;
+    return off === 0 ? +s.getAttribute("data-s") : +s.getAttribute("data-s") + s.textContent.length;
+  }
+
+  var WORD = /[A-Za-z0-9'’]/;
+  function snap(start, end) {
+    var t = S.doc.text;
+    while (start > 0 && WORD.test(t[start - 1]) && WORD.test(t[start])) start--;
+    while (end < t.length && WORD.test(t[end - 1] || "") && WORD.test(t[end])) end++;
+    while (start < end && /\s/.test(t[start])) start++;
+    while (end > start && /\s/.test(t[end - 1])) end--;
+    return [start, end];
+  }
+
+  function onSelect(ev) {
+    var sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0) return;
+    var r = sel.getRangeAt(0);
+    if (sel.isCollapsed) {
+      var target = ev && ev.target && ev.target.closest && ev.target.closest(".hl[data-k]");
+      if (target) edit(target.getAttribute("data-k"), +target.getAttribute("data-i"), false);
+      return;
+    }
+    if (!textEl.contains(r.startContainer) || !textEl.contains(r.endContainer)) return;
+    var a = absOffset(r.startContainer, r.startOffset), b = absOffset(r.endContainer, r.endOffset);
+    if (a === null || b === null || b <= a) return;
+    var se = snap(a, b), start = se[0], end = se[1];
+    if (end <= start) return;
+    sel.removeAllRanges();
+
+    var phrase = S.doc.text.slice(start, end), problem = null;
+    if (S.masks.some(function (m) { return start < m.end && m.start < end; })) {
+      problem = "That passage touches a masked prompt example, which is never labelled.";
+    } else {
+      var clash = S.spans.filter(function (s) { return s.start >= 0 && start < s.end && s.start < end; })[0];
+      if (clash) problem = "That overlaps an existing label. Click the highlight to edit it instead.";
+      else {
+        var n = hits(S.doc.text, phrase).length;
+        if (n > 1) problem = "Those words appear " + n + " times in the transcript. Select a longer passage so it's unique.";
+      }
+    }
+    S.active = null;
+    S.draft = { start: start, end: end, phrase: phrase, problem: problem,
+                kind: "p", type: null, hedge: null, note: "", why: "", extras: {} };
+    renderAll();
+  }
+
+  function edit(kind, i, scroll) {
+    var item = kind === "p" ? S.labels.promises[i] : S.labels.must_not_extract[i];
+    var sp = S.spans.filter(function (s) { return s.kind === kind && s.i === i; })[0];
+    S.active = { kind: kind, i: i };
+    S.draft = {
+      edit: { kind: kind, i: i }, start: sp ? sp.start : -1, end: sp ? sp.end : -1,
+      phrase: item[0], problem: null, kind: kind,
+      type: kind === "p" ? item[1] : null, hedge: kind === "p" ? item[2] : null,
+      note: kind === "p" ? (item[3] || "") : "", why: kind === "n" ? (item[1] || "") : "",
+      extras: kind === "p" ? JSON.parse(JSON.stringify(item[4] || {})) : {}
+    };
+    renderAll();
+    if (scroll) {
+      var h = textEl.querySelector('.hl[data-k="' + kind + '"][data-i="' + i + '"]');
+      if (h) h.scrollIntoView({ block: "center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    }
+  }
+
+  /* ---------------- editor ---------------- */
+
+  function segButtons(table, current, onPick, cls) {
+    return el("div", { "class": "seg" + (cls ? " " + cls : "") }, table.map(function (t) {
+      return el("button", { type: "button", "data-v": t[0], "aria-pressed": String(current === t[0]), onclick: function () { onPick(t[0]); } },
+        [t[1], t[2] ? el("small", { text: t[2] }) : null]);
+    }));
+  }
+
+  function renderEditor() {
+    var body = $("edBody"); body.textContent = "";
+    var d = S.draft;
+    $("edTitle").textContent = d && d.edit ? "Edit label" : "Add a label";
+    if (!d) {
+      body.appendChild(el("p", { "class": "hint" }, [
+        "Highlight a passage in the transcript with the mouse. Start where the commitment starts and stop where it ends; it snaps to whole words. Click an existing highlight to edit it. ",
+        el("kbd", { text: "Esc" }), " cancels."
+      ]));
+      return;
+    }
+    body.appendChild(el("blockquote", { "class": "quote " + d.kind, text: d.phrase }));
+    if (d.problem) {
+      body.appendChild(el("p", { "class": "msg bad", text: d.problem }));
+      body.appendChild(el("div", { "class": "actions" }, [el("button", { "class": "btn", type: "button", text: "Dismiss", onclick: cancel })]));
+      return;
+    }
+    if (S.error) body.appendChild(el("p", { "class": "msg bad", text: S.error }));
+
+    body.appendChild(el("div", { "class": "field" }, [
+      el("span", { "class": "lab", text: "This passage is" }),
+      segButtons([["p", "A promise", "the company commits to something"], ["n", "Not a promise", "a tempting trap"]], d.kind,
+        function (v) { d.kind = v; renderEditor(); }, "kind")
+    ]));
+
+    if (d.kind === "p") {
+      body.appendChild(el("div", { "class": "field" }, [
+        el("span", { "class": "lab", text: "Type: what would prove it kept or broken?" }),
+        segButtons(TYPES, d.type, function (v) { d.type = v; renderEditor(); })
+      ]));
+      body.appendChild(el("div", { "class": "field" }, [
+        el("span", { "class": "lab", text: "Hedge: the verb on the checkable part" }),
+        segButtons(HEDGES, d.hedge, function (v) { d.hedge = v; renderEditor(); })
+      ]));
+      var note = el("textarea", { id: "note", placeholder: "Why this is a promise, in one sentence (recommended)" });
+      note.value = d.note; note.addEventListener("input", function () { d.note = note.value; });
+      body.appendChild(el("div", { "class": "field" }, [el("label", { "for": "note", text: "Note" }), note]));
+      body.appendChild(renderExtras(d));
+    } else {
+      var why = el("textarea", { id: "why", placeholder: "Why it looks like a promise but isn't" });
+      why.value = d.why; why.addEventListener("input", function () { d.why = why.value; });
+      body.appendChild(el("div", { "class": "field" }, [el("label", { "for": "why", text: "Why it's not a promise" }), why]));
+    }
+
+    var ready = d.kind === "n" || (d.type && d.hedge);
+    var actions = [
+      el("button", { "class": "btn primary", type: "button", text: d.edit ? "Update label" : "Add label", onclick: commit }),
+      el("button", { "class": "btn", type: "button", text: "Cancel", onclick: cancel })
+    ];
+    if (!ready) actions[0].setAttribute("disabled", "");
+    if (d.edit) actions.push(el("button", { "class": "btn danger", type: "button", text: "Delete", onclick: remove }));
+    body.appendChild(el("div", { "class": "actions" }, actions));
+  }
+
+  function renderExtras(d) {
+    var ex = d.extras;
+    var open = Object.keys(ex).length > 0;
+    var det = el("details", open ? { open: "" } : {}, [el("summary", { text: "More detail (optional)" })]);
+
+    var draw = el("input", { type: "text", id: "draw", placeholder: "e.g. by 2025 · later in the fiscal year" });
+    draw.value = ex.deadline_raw || "";
+    draw.addEventListener("input", function () { setExtra("deadline_raw", draw.value.trim() || undefined); });
+    det.appendChild(el("div", { "class": "field" }, [el("label", { "for": "draw", text: "Deadline, as said" }), draw]));
+
+    if (!d.dmode) d.dmode = !("deadline_resolved" in ex) ? "none" : ex.deadline_resolved === null ? "null" : "date";
+    var mode = d.dmode;
+    var date = el("input", { type: "date", id: "ddate", "aria-label": "Deadline date" });
+    date.value = mode === "date" ? ex.deadline_resolved : "";
+    date.addEventListener("change", function () { if (date.value) { setExtra("deadline_resolved", date.value); } });
+    function radio(v, text) {
+      var r = el("input", { type: "radio", name: "dmode", value: v });
+      r.checked = mode === v;
+      r.addEventListener("change", function () {
+        d.dmode = v;
+        if (v === "none") setExtra("deadline_resolved", undefined);
+        else if (v === "null") setExtra("deadline_resolved", null);
+        else if (date.value) setExtra("deadline_resolved", date.value);
+        else setExtra("deadline_resolved", undefined);
+        renderEditor();
+      });
+      return el("label", {}, [r, text]);
+    }
+    det.appendChild(el("div", { "class": "field" }, [
+      el("span", { "class": "lab", text: "Deadline, as a date" }),
+      el("div", { "class": "radios" }, [
+        radio("none", "Don't score the deadline"),
+        radio("null", "No date: fiscal-year or unclear (the right answer is empty)"),
+        radio("date", "A clear calendar date:")
+      ]),
+      mode === "date" ? date : null
+    ]));
+
+    var keys = {};
+    S.labels.promises.forEach(function (p) { if (p[4] && p[4].thread_key) keys[p[4].thread_key] = 1; });
+    var dl = el("datalist", { id: "threadKeys" }, Object.keys(keys).map(function (k) { return el("option", { value: k }); }));
+    var tk = el("input", { type: "text", id: "tkey", list: "threadKeys", placeholder: "same key = same promise repeated" });
+    tk.value = ex.thread_key || "";
+    tk.addEventListener("input", function () { setExtra("thread_key", tk.value.trim() || undefined); });
+    det.appendChild(el("div", { "class": "field" }, [el("label", { "for": "tkey", text: "Thread key" }), tk, dl]));
+
+    var sl = ex.slices || [];
+    det.appendChild(el("div", { "class": "field" }, [
+      el("span", { "class": "lab", text: "Tags" }),
+      el("div", { "class": "checks" }, SLICES.map(function (s) {
+        var c = el("input", { type: "checkbox", value: s[0] });
+        c.checked = sl.indexOf(s[0]) >= 0;
+        c.addEventListener("change", function () {
+          var cur = (ex.slices || []).filter(function (x) { return x !== s[0]; });
+          if (c.checked) cur.push(s[0]);
+          setExtra("slices", cur.length ? cur : undefined);
+        });
+        return el("label", { title: s[1] }, [c, s[1]]);
+      }))
+    ]));
+
+    var amb = el("input", { type: "checkbox", id: "amb" });
+    amb.checked = !!ex.ambiguous;
+    amb.addEventListener("change", function () { setExtra("ambiguous", amb.checked || undefined); });
+    det.appendChild(el("div", { "class": "field" }, [el("label", {}, [amb, " Ambiguous: arguable either way (never scored right or wrong)"])]));
+    return det;
+
+    function setExtra(k, v) { if (v === undefined) delete ex[k]; else ex[k] = v; }
+  }
+
+  function commit() {
+    var d = S.draft; if (!d || d.problem) return;
+    var item;
+    if (d.kind === "p") {
+      if (!d.type || !d.hedge) return;
+      item = [d.phrase, d.type, d.hedge, d.note.trim()];
+      var ex = {};
+      Object.keys(d.extras).forEach(function (k) { if (d.extras[k] !== undefined) ex[k] = d.extras[k]; });
+      if (Object.keys(ex).length) item.push(ex);
+    } else {
+      item = [d.phrase, d.why.trim()];
+    }
+    if (d.edit) {
+      var from = d.edit.kind === "p" ? S.labels.promises : S.labels.must_not_extract;
+      if (d.edit.kind === d.kind) { from[d.edit.i] = item; }
+      else { from.splice(d.edit.i, 1); (d.kind === "p" ? S.labels.promises : S.labels.must_not_extract).push(item); }
+    } else {
+      (d.kind === "p" ? S.labels.promises : S.labels.must_not_extract).push(item);
+    }
+    S.draft = null; S.active = null;
+    changed();
+  }
+
+  function remove() {
+    var d = S.draft; if (!d || !d.edit) return;
+    if (!confirm("Delete this label?")) return;
+    (d.edit.kind === "p" ? S.labels.promises : S.labels.must_not_extract).splice(d.edit.i, 1);
+    S.draft = null; S.active = null;
+    changed();
+  }
+
+  function cancel() { S.draft = null; S.active = null; S.error = null; renderAll(); }
+
+  /* ---------------- saving ---------------- */
+
+  function setSave(text, cls) { var s = $("save"); s.textContent = text; s.className = "save" + (cls ? " " + cls : ""); }
+
+  function changed() {
+    S.dirty = true; S.error = null;
+    renderAll();
+    setSave("Unsaved changes…", "");
+    clearTimeout(S.timer);
+    S.timer = setTimeout(saveNow, 500);
+  }
+
+  function saveNow() {
+    if (!S.doc || S.saving) { if (S.saving) S.timer = setTimeout(saveNow, 300); return; }
+    S.saving = true;
+    setSave("Saving…", "");
+    var id = S.doc.id;
+    api("PUT", "/api/doc?id=" + encodeURIComponent(id), S.labels).then(function (r) {
+      S.saving = false;
+      if (r.ok) {
+        S.dirty = false;
+        var t = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        setSave("Saved " + t + " · " + r.rebuild, /not rebuilt/.test(r.rebuild) ? "bad" : "ok");
+        refreshDocList();
+      } else {
+        setSave("Not saved: " + (r.errors || ["unknown error"])[0], "bad");
+        if ((r.errors || []).length > 1) console.warn(r.errors);
+      }
+    }).catch(function () {
+      S.saving = false;
+      setSave("Not saved: is `python evals/label_server.py` still running?", "bad");
+    });
+  }
+
+  function refreshDocList() { var cur = S.doc && S.doc.id; loadDocs(cur); }
+
+  /* ---------------- status controls ---------------- */
+
+  $("who").addEventListener("input", function () { S.labels.labelled_by = $("who").value; changed(); });
+  $("exhaustive").addEventListener("change", function () { S.labels.exhaustive = $("exhaustive").checked; changed(); });
+  $("complete").addEventListener("change", function () {
+    var c = $("complete");
+    if (c.checked) {
+      if (!String(S.labels.labelled_by || "").trim()) { alert("Fill in 'Labelled by' first."); c.checked = false; return; }
+      if (!confirm("Mark this transcript complete? It will be scored from the next eval. Only do this after reading all of it, Q&A included.")) { c.checked = false; return; }
+    }
+    S.labels.labelling_complete = c.checked; changed();
+  });
+
+  /* ---------------- misc ---------------- */
+
+  function renderAll() { resolve(); renderText(); renderCounts(); renderList(); renderEditor(); }
+
+  function saveScroll() { if (S.doc) store("labeldesk.scroll." + S.doc.id, String(Math.round(window.scrollY))); }
+  var ticking = false;
+  window.addEventListener("scroll", function () {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(function () {
+      var h = document.documentElement.scrollHeight - innerHeight;
+      $("progress").style.width = (h > 0 ? Math.min(100, 100 * scrollY / h) : 0) + "%";
+      saveScroll(); ticking = false;
+    });
+  });
+  textEl.addEventListener("mouseup", onSelect);
+  textEl.addEventListener("keyup", function (e) { if (e.shiftKey) onSelect(e); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && S.draft) cancel(); });
+  window.addEventListener("beforeunload", function (e) { if (S.dirty) { e.preventDefault(); e.returnValue = ""; } });
+  $("docSel").addEventListener("change", function () { openDoc($("docSel").value); });
+
+  loadDocs().then(function (id) { if (id) openDoc(id); else $("title").textContent = "No transcripts to label."; })
+    .catch(function () { $("title").textContent = "Can't reach the label server. Start it with: python evals/label_server.py"; });
+})();
+</script>
+</body>
+</html>

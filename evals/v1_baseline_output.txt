@@ -1,3 +1,10 @@
+# v1 baseline output -- the ORIGINAL pipeline's result, kept for comparison.
+#
+# Produced by the pre-0.2 extract_promises.py: one Claude call per transcript,
+# first 1000 words only, free-text snippets, no schema. This file is the
+# 'before' the rebuild is measured against, and is where the negative examples
+# in src/pr_predictor/taxonomy.py were drawn from.
+#
 === 1FUvRp9MGpU.txt ===
 Title: Capital Markets Day 2022
 Date: 2022-05-11

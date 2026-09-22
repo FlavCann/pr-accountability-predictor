@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>IR Accountability</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="icon" href="img/logo.jpeg">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/company.css">
+<link rel="stylesheet" href="css/rating.css">
+<link rel="stylesheet" href="css/evals.css">
+<script type="module" src="js/main.js"></script>
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <img src="img/logo.jpeg" alt="">
+    <span><span class="name">IR Accountability</span><span class="tagline">Do companies keep their word?</span></span>
+  </div>
+  <div class="tabs" role="tablist" aria-label="Views">
+    <button class="tab" role="tab" id="tab-companies" data-view="companies" aria-selected="true">Companies</button>
+    <button class="tab" role="tab" id="tab-evals" data-view="evals" aria-selected="false">Model evaluation</button>
+  </div>
+  <nav class="companies" id="companies" aria-label="Companies"></nav>
+</header>
+<main id="main"><p class="empty">Loading…</p></main>
+<div id="tip" role="tooltip"></div>
+</body>
+</html>

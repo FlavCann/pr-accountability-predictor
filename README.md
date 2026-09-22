@@ -1,79 +1,272 @@
-# PR Accountability Predictor tool
+# PR Accountability Predictor
 
-Tools for collecting the raw text of corporate communications so they can be analysed later. The repo currently covers the data-collection step: finding YouTube videos on saved investor-relations pages and downloading their transcripts. The example data comes from Barry Callebaut's "Results & Publications" page (results presentations, capital markets days, and similar).
+Track what companies promise in investor communications, and hold them to it.
 
-## How it works
+The pipeline extracts forward-looking commitments from investor transcripts,
+threads restatements together across years, gathers evidence about whether each
+was met, issues a verdict, and predicts which open commitments will be kept.
+Every claim traces back to a timestamped span in a named source.
 
+Example corpus: eight Barry Callebaut investor presentations, 2021–2023.
+
+---
+
+## Flow
+
+```mermaid
+flowchart TD
+    subgraph ingest["INGEST — ingest.py"]
+        A[pages/*.html] --> B[discover]
+        B --> C[to_scrape.json]
+        C --> D[fetch]
+        D --> E[("Source + Segment<br/>text + char offsets + timestamps")]
+    end
+
+    subgraph extraction["EXTRACT — context.py, extract.py"]
+        E --> F[chunk with overlap]
+        F --> G[assemble context<br/>brief · glossary · prior threads]
+        G --> H[extract: model quotes<br/>opening + closing words]
+        H --> I[locate quotes, compute offsets<br/>reconcile duplicates<br/>attach timestamps]
+        I --> J[("Promise")]
+    end
+
+    subgraph linking["LINK — threading_.py"]
+        J --> K{deterministic<br/>match score}
+        K -->|clear| M[("PromiseThread")]
+        K -->|ambiguous| L[model tie-break]
+        L --> M
+    end
+
+    subgraph verification["VERIFY — tools.py, verify.py"]
+        M --> N[bounded agent loop<br/>step cap · cost cap]
+        N --> O[("Evidence")]
+        O --> P[adjudicate]
+        P -->|contested| Q[advisor tool]
+        Q --> R
+        P --> R[("Verdict")]
+    end
+
+    subgraph out["OUTCOMES — outcomes.py"]
+        M --> S[("Prediction")]
+        R --> T[analyst review]
+        T -->|correction| U[("Memory")]
+        U -.feeds context.-> G
+        R --> V[resolve predictions<br/>Brier · calibration]
+        S --> V
+    end
+
+    V --> W[report / API]
+    T --> W
+
+    style E fill:#e8eef2,stroke:#1F4E5F,color:#111
+    style J fill:#e8eef2,stroke:#1F4E5F,color:#111
+    style M fill:#e8eef2,stroke:#1F4E5F,color:#111
+    style R fill:#e8eef2,stroke:#1F4E5F,color:#111
+    style U fill:#f1ecf6,stroke:#6B4E8A,color:#111
 ```
-saved HTML pages ──► find_videos.py ──► to_scrape.json ──► scrape_all.py ──► transcripts/*.txt
-   (pages/)                                                     │
-                                                          transcript.py
-```
 
-| File | Purpose |
-| --- | --- |
-| `find_videos.py` | Parses the HTML files in `pages/`, extracts YouTube links plus each card's title and date, and appends new ones to `to_scrape.json`. Videos already listed are skipped. |
-| `to_scrape.json` | The list of videos to fetch (`url`, `title`, `date`). Currently holds 8 Barry Callebaut videos from 2021-2023. |
-| `scrape_all.py` | Downloads the English transcript for each entry in `to_scrape.json` and writes it to `transcripts/<video_id>.txt` with a title/date/URL header. Skips videos that already have a file and waits 5 seconds between requests. |
-| `extract_promises.py` | Sends the first 1000 words of each transcript in `transcripts/` to Claude, which extracts every future promise the speaker makes. Each verbatim snippet is printed to the console and written to `promises.txt` (overwritten on each run). |
-| `transcript.py` | Fetches a single transcript. Works as a module (used by `scrape_all.py`) or as a CLI. |
+The dotted line is the loop that makes the product improve from use: an analyst
+correcting a verdict writes durable memory, which is retrieved into the context
+of every later extraction.
+
+`pipeline.py` orchestrates these stages. **Agents are steps inside the
+workflow, not the workflow** — the verification agent runs bounded and
+disposable inside one stage; it does not drive the process.
+
+---
+
+## Layout
+
+| Layer | Module | Job |
+| --- | --- | --- |
+| Definitions | `taxonomy.py` | What counts as a promise. Single source of truth, shared by the prompt, the evals and the adjudicator. |
+| | `domain.py` | The object graph: Source → Segment → Promise → Thread → Evidence → Verdict → Prediction. |
+| | `config.py` | Settings, model routing, cost table, loop bounds. |
+| Infrastructure | `store.py` | SQLite. Evidence and decisions are insert-only; derived state is labelled mutable. |
+| | `llm.py` | The harness: retries, prompt caching, schema repair, cost accounting. |
+| | `prompts.py` | Versioned prompt registry. Every row records the prompt that made it. |
+| Pipeline | `ingest.py` | Discover → fetch → normalise. Keeps timestamps. |
+| | `context.py` | Chunking and context assembly. |
+| | `extract.py` | Extraction. The model quotes each promise's first and last words; we locate them and compute the offsets. |
+| | `threading_.py` | Restatements grouped into commitment threads. |
+| | `tools.py` | The verification agent's tool surface. |
+| | `verify.py` | Bounded agent loop, adjudication, advisor escalation. |
+| Product | `evals/` | The benchmark: gold set, splits, scoring, intervals, the gate, and suites for threading, adjudication, predictions and the judge. |
+| | `outcomes.py` | Product telemetry, the predictor, and a company's accountability profile. |
+| | `rating.py` | The headline PR-accountability level. Currently a placeholder: every company is `pr_med_low`. |
+| | `pipeline.py` | Stage orchestration. |
+| Interfaces | `cli.py` | Command line. |
+| | `api/` | HTTP service: `app.py` assembles it, `routes/` has one router per resource. |
+| | `static/` | The dashboard: `index.html`, `css/`, `js/` (ES modules: `views/`, `components/`, `lib/`), `img/`. |
+
+---
 
 ## Setup
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[api,dev]"
 ```
+
+Python 3.9 or later. Calling a model needs an API key. Put it in a `.env` file
+at the repo root, which is git-ignored and loaded automatically:
+
+```bash
+echo 'ANTHROPIC_API_KEY=sk-ant-...' > .env
+```
+
+Everything else runs without one.
+
+---
 
 ## Usage
 
-**1. Find videos on saved pages**
-
-The `pages/` folder is git-ignored, so create it yourself and save the pages you want to scan as `.html` files (for example with your browser's "Save Page As").
-
-```bash
-python find_videos.py            # scans ./pages
-python find_videos.py some/dir   # or scan another folder
-```
-
-`find_videos.py` picks up the title and date from cards with the `overview-teaser` CSS class, which is specific to the Barry Callebaut site. On other sites it still finds the YouTube links, but the title and date will be `null` unless you adapt `extract_videos()`.
-
-**2. Download transcripts**
+**Run the pipeline.** Ingests the transcripts already in `transcripts/`, then
+extracts, threads, verifies, predicts and reports.
 
 ```bash
-python scrape_all.py
+python -m pr_predictor run              # reads the key from .env
 ```
 
-Transcripts are saved to `transcripts/`. Videos with no English transcript are reported as `fail` and skipped, so you can re-run the script safely.
-
-**3. Fetch one transcript (optional)**
+**Without an API key**, two offline modes:
 
 ```bash
-python transcript.py "https://www.youtube.com/watch?v=tbovqMt-PJQ"
+python -m pr_predictor --dry-run run    # walk the wiring, call nothing
+python -m pr_predictor --replay run     # replay gold labels through the real
+                                        # extraction path: no key, no spend
 ```
 
-This prints the transcript with `[mm:ss]` timestamps.
-
-**4. Extract promises (optional)**
+**Inspect what it found.**
 
 ```bash
-export ANTHROPIC_API_KEY=...
-python extract_promises.py
+python -m pr_predictor promises         # verbatim text + video deep links
+python -m pr_predictor threads          # commitments, restatements, silence
+python -m pr_predictor ledger           # tokens and dollars per stage
+python -m pr_predictor report           # product outcome metrics
 ```
 
-This is a testing mode: only the first `MAX_WORDS` (1000) words of each transcript are sent, and each run calls the API once per transcript. Change `MODEL` or `MAX_WORDS` at the top of the script.
+**Measure a prompt change.** Never change the extraction prompt without this.
 
-## Requirements
+```bash
+# The original pipeline, reproduced: v1 prompt on the first 1,000 words
+python -m pr_predictor eval --prompt-version extract-v1 --baseline-truncate 1000
+# The original prompt on the full text (isolates the prompt from the truncation)
+python -m pr_predictor eval --prompt-version extract-v1
+# The current prompt
+python -m pr_predictor eval --prompt-version extract-v3
+```
 
-- Python 3
-- [`youtube-transcript-api`](https://pypi.org/project/youtube-transcript-api/)
-- [`anthropic`](https://pypi.org/project/anthropic/) (needs an `ANTHROPIC_API_KEY`)
-- [`beautifulsoup4`](https://pypi.org/project/beautifulsoup4/)
+Each eval lists **unjudged** extractions: passages the model called promises
+that the partial gold set doesn't label either way. Label them with the label
+desk (`python evals/label_server.py`), and re-run all three. The gate will not promote
+a prompt (`--promote`) while any remain.
+
+Each run samples every config `--repeats` times (default 3), reports F1 with a
+bootstrap interval once there are enough documents, and is recorded in the
+store (`eval-history`). Change one thing at a time — the gate refuses a
+comparison where the model, the prompt and the harness differ in more than one:
+
+```bash
+python -m pr_predictor eval --models claude-sonnet-5,claude-opus-5          # model matrix
+python -m pr_predictor eval --harness chunk_words=900,chunk_overlap_words=150  # harness change
+python -m pr_predictor eval --judge                                         # + claim faithfulness
+python -m pr_predictor eval-threads                                         # threading, deterministic
+python -m pr_predictor eval-adjudication                                    # verdicts on labelled cases
+python -m pr_predictor eval-predictions                                     # Brier, graded by reality
+python -m pr_predictor eval-history
+```
+
+**Work the review queue** — the human checkpoint. Corrections become durable
+memory.
+
+```bash
+python -m pr_predictor review
+```
+
+**Serve the API.**
+
+```bash
+uvicorn pr_predictor.api:app --reload
+# http://127.0.0.1:8000/docs
+```
+
+The dashboard is at `http://127.0.0.1:8000/dashboard`: a company's
+PR-accountability rating (revealed by a spin; a placeholder until `rating.py`
+reads the record), its accountability profile, its commitment threads, and for each thread the
+promises (verbatim, with video deep links), the verdict, and the evidence the
+rationale cites.
+
+Its **Model evaluation** tab (`/dashboard#view=evals`) shows the benchmark: the
+champion's scores against the previous run, F1 / precision / recall across every
+recorded run, and the champion's scores per transcript and per slice. It reads
+`GET /evals` and `GET /evals/{run_id}`, which serve scores only, never
+transcript text.
+
+**Re-fetch transcripts with timestamps.** The files in `transcripts/` were
+written by the old pipeline without timestamps; that information can only be
+recovered from YouTube.
+
+```bash
+python -m pr_predictor run --stages fetch
+```
+
+---
+
+## Evals
+
+New to evals? Open `evals/GUIDE.html` in a browser: a plain-language walkthrough
+of how the benchmark works, with diagrams, a worked example and a command cheat
+sheet.
+
+To label transcripts, run `python evals/label_server.py`: a local page where you
+highlight a passage and classify it. Rules are in `evals/GUIDELINES.md`.
+
+The gold set lives in `evals/gold/*.json` as character offsets, generated from
+labelled phrases by `evals/build_gold.py`. Edit the phrases, not the offsets:
+
+```bash
+python evals/build_gold.py
+```
+
+It fails loudly if a labelled phrase is missing or ambiguous in the transcript,
+so the gold set cannot silently go stale against the corpus.
+
+Every transcript has a split in `evals/splits.json`, assigned before it is
+labelled: `examples` (prompt examples come from here; never scored), `dev`
+(iterate), `test` (held out; promotion is decided here when it has documents)
+and `fresh` (published after the model's training cutoff). The eval refuses to
+run if a prompt example appears in any scored transcript, labelled or not.
+
+How to label — spans, hedges, fiscal-year deadlines, thread keys, slices,
+disagreement — is in `evals/GUIDELINES.md`. See `CLAUDE.md` for the rest of the
+eval rules.
+
+`evals/v1_baseline_output.txt` is what the original pipeline produced, kept for
+comparison.
+
+---
+
+## Tests
+
+```bash
+python -m pytest
+```
+
+108 tests covering offset arithmetic, quote location, duplicate reconciliation,
+timestamp resolution, threading, cost accounting, the eval gate and its
+refusals, benchmark statistics, eval contamination, insert-only records and whole-pipeline idempotency. No live API
+calls.
+
+---
 
 ## Notes
 
 - Only English transcripts are requested.
-- If `scrape_all.py` stops with "YouTube is blocking this IP" (`IpBlocked`), YouTube has flagged your network. Wait a few hours, switch network (e.g. a phone hotspot), or set `TRANSCRIPT_PROXY_URL=http://user:pass@host:port` to use a proxy (residential proxies work best; datacenter IPs are usually blocked too).
-- YouTube may rate-limit or block repeated requests. The 5-second delay in `scrape_all.py` is there to reduce that.
-- Transcripts and source pages are not committed to the repo. Please respect the terms of the sites and videos you collect from.
+- If fetching stops with `IpBlocked`, YouTube has flagged your network. Wait,
+  switch network, or set `TRANSCRIPT_PROXY_URL=http://user:pass@host:port`
+  (residential proxies work; datacentre IPs are usually blocked too).
+- Transcripts, saved pages and the SQLite store are git-ignored. Respect the
+  terms of the sites and videos you collect from.
+- Barry Callebaut's fiscal year ends 31 August, so "FY23" is not calendar 2023.
+  See `CLAUDE.md`.
